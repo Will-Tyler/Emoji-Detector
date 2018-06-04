@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ObA-dk-sSI">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Messages View Controller-->
+        <scene sceneID="7MM-of-jgj">
+            <objects>
+                <viewController id="ObA-dk-sSI" customClass="MessagesViewController" customModule="Emoji_Detector_MessagesExtension" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zMn-AG-sqS">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="LaA-Kk-IGW">
+                                <rect key="frame" x="16" y="36" width="288" height="476"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="BiC-1l-f2M">
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="178"/>
+                                        <subviews>
+                                            <view userInteractionEnabled="NO" contentMode="center" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dZm-LM-3Tn" userLabel="Camera Preview">
+                                                <rect key="frame" x="0.0" y="0.0" width="140" height="178"/>
+                                                <color key="backgroundColor" red="0.46202266219999999" green="0.83828371759999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <accessibility key="accessibilityConfiguration">
+                                                    <accessibilityTraits key="traits" notEnabled="YES" startsMediaSession="YES"/>
+                                                </accessibility>
+                                            </view>
+                                            <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="njP-Jy-pba">
+                                                <rect key="frame" x="148" y="0.0" width="140" height="178"/>
+                                                <subviews>
+                                                    <view contentMode="center" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qra-jl-PuV">
+                                                        <rect key="frame" x="0.0" y="0.0" width="140" height="140"/>
+                                                        <subviews>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V4b-Zy-vcn">
+                                                                <rect key="frame" x="8" y="8" width="48" height="60"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                                                <state key="normal" title="E1"/>
+                                                                <connections>
+                                                                    <action selector="emojiButtonPressed:" destination="ObA-dk-sSI" eventType="touchUpInside" id="1Cp-6y-vXh"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7GM-lN-08T">
+                                                                <rect key="frame" x="84" y="8" width="48" height="60"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                                                <state key="normal" title="E2"/>
+                                                                <connections>
+                                                                    <action selector="emojiButtonPressed:" destination="ObA-dk-sSI" eventType="touchUpInside" id="fvT-ui-HoM"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m9z-Vj-Jp9">
+                                                                <rect key="frame" x="8" y="72" width="48" height="60"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                                                <state key="normal" title="E3"/>
+                                                                <connections>
+                                                                    <action selector="emojiButtonPressed:" destination="ObA-dk-sSI" eventType="touchUpInside" id="lpP-uz-fTT"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Fm-e7-NAL">
+                                                                <rect key="frame" x="84" y="72" width="48" height="60"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                                                <state key="normal" title="E4"/>
+                                                                <connections>
+                                                                    <action selector="emojiButtonPressed:" destination="ObA-dk-sSI" eventType="touchUpInside" id="Hxp-mD-BLn"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="bottom" secondItem="0Fm-e7-NAL" secondAttribute="bottom" constant="8" id="4Az-4f-S6m"/>
+                                                            <constraint firstItem="V4b-Zy-vcn" firstAttribute="centerX" secondItem="m9z-Vj-Jp9" secondAttribute="centerX" id="8T8-p1-LV5"/>
+                                                            <constraint firstItem="m9z-Vj-Jp9" firstAttribute="leading" secondItem="Qra-jl-PuV" secondAttribute="leading" constant="8" id="9w4-TN-KwR"/>
+                                                            <constraint firstItem="V4b-Zy-vcn" firstAttribute="leading" secondItem="Qra-jl-PuV" secondAttribute="leading" constant="8" id="B0A-he-tnD"/>
+                                                            <constraint firstItem="V4b-Zy-vcn" firstAttribute="top" secondItem="Qra-jl-PuV" secondAttribute="top" constant="8" id="D1I-uN-JcW"/>
+                                                            <constraint firstItem="7GM-lN-08T" firstAttribute="centerX" secondItem="0Fm-e7-NAL" secondAttribute="centerX" id="K6H-uV-NUc"/>
+                                                            <constraint firstAttribute="trailing" secondItem="0Fm-e7-NAL" secondAttribute="trailing" constant="8" id="ax9-Cs-9G1"/>
+                                                            <constraint firstItem="0Fm-e7-NAL" firstAttribute="height" secondItem="V4b-Zy-vcn" secondAttribute="height" id="bTY-ZE-3Ll"/>
+                                                            <constraint firstItem="m9z-Vj-Jp9" firstAttribute="width" secondItem="V4b-Zy-vcn" secondAttribute="width" id="cEC-WM-H7s"/>
+                                                            <constraint firstItem="7GM-lN-08T" firstAttribute="width" secondItem="V4b-Zy-vcn" secondAttribute="width" id="iBm-8k-CIS"/>
+                                                            <constraint firstItem="m9z-Vj-Jp9" firstAttribute="height" secondItem="V4b-Zy-vcn" secondAttribute="height" id="jve-BX-OeE"/>
+                                                            <constraint firstAttribute="trailing" secondItem="7GM-lN-08T" secondAttribute="trailing" constant="8" id="k49-yf-PWJ"/>
+                                                            <constraint firstItem="m9z-Vj-Jp9" firstAttribute="centerY" secondItem="0Fm-e7-NAL" secondAttribute="centerY" id="kMB-d9-DLr"/>
+                                                            <constraint firstItem="0Fm-e7-NAL" firstAttribute="width" secondItem="V4b-Zy-vcn" secondAttribute="width" id="lSP-OH-3rr"/>
+                                                            <constraint firstItem="V4b-Zy-vcn" firstAttribute="centerY" secondItem="7GM-lN-08T" secondAttribute="centerY" id="qX9-Mv-Bnd"/>
+                                                            <constraint firstAttribute="bottom" secondItem="m9z-Vj-Jp9" secondAttribute="bottom" constant="8" id="tJe-yF-joC"/>
+                                                            <constraint firstItem="7GM-lN-08T" firstAttribute="height" secondItem="V4b-Zy-vcn" secondAttribute="height" id="wBg-Nx-6eC"/>
+                                                            <constraint firstItem="7GM-lN-08T" firstAttribute="top" secondItem="Qra-jl-PuV" secondAttribute="top" constant="8" id="x32-t2-cyJ"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <button opaque="NO" contentMode="center" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="raL-eV-cVo">
+                                                        <rect key="frame" x="0.0" y="148" width="140" height="30"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <state key="normal" title="Reload"/>
+                                                        <connections>
+                                                            <action selector="reloadButtonPressed:" destination="ObA-dk-sSI" eventType="touchUpInside" id="7oy-PS-R0M"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" red="1" green="0.49327188729999999" blue="0.47399842739999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                    <textView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" editable="NO" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="idr-Za-fSA">
+                                        <rect key="frame" x="0.0" y="194" width="288" height="282"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" link="YES" staticText="YES" notEnabled="YES"/>
+                                        </accessibility>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="LaA-Kk-IGW" firstAttribute="top" secondItem="LDy-ih-0nr" secondAttribute="top" constant="16" id="8Na-we-KGJ"/>
+                            <constraint firstItem="LDy-ih-0nr" firstAttribute="trailing" secondItem="LaA-Kk-IGW" secondAttribute="trailing" constant="16" id="GIf-mB-47p"/>
+                            <constraint firstItem="LaA-Kk-IGW" firstAttribute="leading" secondItem="LDy-ih-0nr" secondAttribute="leading" constant="16" id="aGC-lV-5en"/>
+                            <constraint firstItem="LDy-ih-0nr" firstAttribute="bottom" secondItem="LaA-Kk-IGW" secondAttribute="bottom" constant="16" id="oGi-No-Bjb"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="LDy-ih-0nr"/>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="528"/>
+                    <connections>
+                        <outlet property="emojiButton1" destination="V4b-Zy-vcn" id="7yD-c1-BeW"/>
+                        <outlet property="emojiButton2" destination="7GM-lN-08T" id="jIp-vK-CC2"/>
+                        <outlet property="emojiButton3" destination="m9z-Vj-Jp9" id="GQO-RN-EQS"/>
+                        <outlet property="emojiButton4" destination="0Fm-e7-NAL" id="NK2-Q5-Spz"/>
+                        <outlet property="functionallityContainer" destination="BiC-1l-f2M" id="hoU-pl-AcL"/>
+                        <outlet property="infoTextView" destination="idr-Za-fSA" id="5SL-a1-Luc"/>
+                        <outlet property="videoPreviewView" destination="dZm-LM-3Tn" id="S86-4b-zBO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X47-rx-isc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.23188405797103" y="132.88043478260872"/>
+        </scene>
+    </scenes>
+</document>
