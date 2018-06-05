@@ -12,7 +12,6 @@ import AVFoundation
 import CoreML
 import Vision
 import WebKit
-import EssentialsiOS
 
 
 class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCaptureDelegate, UITextViewDelegate {
@@ -31,7 +30,13 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 	@IBAction func emojiButtonPressed(_ sender: UIButton) {
 		requestPresentationStyle(.compact)
 
-		activeConversation?.insertText(sender.title(for: .normal)!, completionHandler: nil)
+		let emoji = sender.title(for: .normal)!
+
+		assert(emoji.count == 1)
+
+		assert(!emoji.contains("\n"))
+
+		activeConversation?.insertText(emoji, completionHandler: nil)
 	}
 	@IBAction func reloadButtonPressed(_ sender: UIButton) {
 		photoOutput.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
@@ -168,8 +173,17 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 	func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
 //		print("Opening", url.absoluteString + "...")
 //
-//		let webView = WKWebView(frame: view.subviews[0].frame)
-//		view.addSubview(webView)
+//		let webViewController = UIViewController()
+//
+//		let closeButton = UIButton(type: .system)
+//		closeButton.setTitle("Close", for: .normal)
+//
+//		let webView = WKWebView(frame: webViewController.view.frame)
+//
+//		webViewController.view = webView
+//
+//		present(webViewController, animated: true, completion: nil)
+//
 //		webView.load(URLRequest(url: url))
 
 		return true
@@ -238,10 +252,8 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 			self.handleEmotions(results: results)
 		})
 
-		let handler = VNImageRequestHandler(data: photoData)
-
 		do {
-			try handler.perform([request])
+			try VNImageRequestHandler(data: photoData).perform([request])
 		}
 		catch {
 			print(error)

@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4CA75E6D20C0711B0026F573 /* EssentialsiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CA75E6C20C0711B0026F573 /* EssentialsiOS.framework */; };
-		4CA75E6F20C073620026F573 /* EssentialsiOS.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4CA75E6C20C0711B0026F573 /* EssentialsiOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4CFB9DBC20C04A610048BB16 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CFB9DBB20C04A610048BB16 /* Assets.xcassets */; };
 		4CFB9DC320C04A610048BB16 /* Emoji Detector MessagesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4CFB9DC220C04A610048BB16 /* Emoji Detector MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4CFB9DC820C04A610048BB16 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFB9DC720C04A610048BB16 /* Messages.framework */; };
@@ -38,7 +36,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4CA75E6F20C073620026F573 /* EssentialsiOS.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,7 +53,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4CA75E6C20C0711B0026F573 /* EssentialsiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EssentialsiOS.framework; sourceTree = "<group>"; };
 		4CFB9DB820C04A5F0048BB16 /* Emoji Detector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Emoji Detector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CFB9DBB20C04A610048BB16 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4CFB9DBD20C04A610048BB16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -78,7 +74,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CFB9DC820C04A610048BB16 /* Messages.framework in Frameworks */,
-				4CA75E6D20C0711B0026F573 /* EssentialsiOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,7 +112,6 @@
 		4CFB9DC620C04A610048BB16 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4CA75E6C20C0711B0026F573 /* EssentialsiOS.framework */,
 				4CFB9DC720C04A610048BB16 /* Messages.framework */,
 			);
 			name = Frameworks;
