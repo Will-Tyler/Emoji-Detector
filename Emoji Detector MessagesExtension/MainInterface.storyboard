@@ -38,33 +38,33 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="140" height="140"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V4b-Zy-vcn">
-                                                                <rect key="frame" x="8" y="8" width="48" height="60"/>
+                                                                <rect key="frame" x="8" y="8" width="45" height="60"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
-                                                                <state key="normal" title="E1"/>
+                                                                <state key="normal" title="❕"/>
                                                                 <connections>
                                                                     <action selector="emojiButtonPressed:" destination="ObA-dk-sSI" eventType="touchUpInside" id="1Cp-6y-vXh"/>
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7GM-lN-08T">
-                                                                <rect key="frame" x="84" y="8" width="48" height="60"/>
+                                                                <rect key="frame" x="87" y="8" width="45" height="60"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
-                                                                <state key="normal" title="E2"/>
+                                                                <state key="normal" title="❓"/>
                                                                 <connections>
                                                                     <action selector="emojiButtonPressed:" destination="ObA-dk-sSI" eventType="touchUpInside" id="fvT-ui-HoM"/>
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m9z-Vj-Jp9">
-                                                                <rect key="frame" x="8" y="72" width="48" height="60"/>
+                                                                <rect key="frame" x="8" y="72" width="45" height="60"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
-                                                                <state key="normal" title="E3"/>
+                                                                <state key="normal" title="❗️"/>
                                                                 <connections>
                                                                     <action selector="emojiButtonPressed:" destination="ObA-dk-sSI" eventType="touchUpInside" id="lpP-uz-fTT"/>
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Fm-e7-NAL">
-                                                                <rect key="frame" x="84" y="72" width="48" height="60"/>
+                                                                <rect key="frame" x="87" y="72" width="45" height="60"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
-                                                                <state key="normal" title="E4"/>
+                                                                <state key="normal" title="❔"/>
                                                                 <connections>
                                                                     <action selector="emojiButtonPressed:" destination="ObA-dk-sSI" eventType="touchUpInside" id="Hxp-mD-BLn"/>
                                                                 </connections>
