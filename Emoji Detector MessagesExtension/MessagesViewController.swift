@@ -32,14 +32,10 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		let emoji = sender.title(for: .normal)!
 
-		assert(emoji.count == 1)
-
-		assert(!emoji.contains("\n"))
-
 		activeConversation?.insertText(emoji, completionHandler: nil)
 	}
 	@IBAction func reloadButtonPressed(_ sender: UIButton) {
-		photoOutput.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
+		photoOutput?.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
 	}
 
 	//MARK: - Overrides
@@ -48,47 +44,54 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
         // Do any additional setup after loading the view.
 
 		infoTextView.delegate = self
+		self.infoTextView.text =
+			"""
+			Emoji Detector uses photos of your face and a machine learning model to determine the best emojis to use based off of your facial expression.
 
-		DispatchQueue.main.async {
-			let _ = NSAttributedString(string: "https://www.openu.ac.il/home/hassner/projects/cnn_emotions/", attributes: [NSAttributedStringKey.link: NSURL(string: "https://www.openu.ac.il/home/hassner/projects/cnn_emotions/")!])
-			let _ = NSAttributedString(string: "will.tyler11@gmail.com")
-			self.infoTextView.text =
-				"""
-				Emoji Detector uses photos of your face and a machine learning model to determine the best emojis to use based off of your facial expression.
+			If this app isn't displaying the correct emojis, try exaggerating your facial expresssions, or positioning the camera with a different background.
 
-				If this app isn't displaying the correct emojis, try exaggerating your facial expresssions, or positioning the camera with a different background.
+			Emoji Detector runs entirely on your device, and while this means the app uses more storage, any photo captured by this app will not leave your device, and will be gone once your emojis are detected.
 
-				Emoji Detector runs entirely on your device, and while this means the app uses more storage, any photo captured by this app will not leave your device, and will be gone once your emojis are detected.
+			The machine learning model was developed by Gil Levi and Tal Hassner. https://www.openu.ac.il/home/hassner/projects/cnn_emotions/
 
-				The machine learning model was developed by Gil Levi and Tal Hassner. https://www.openu.ac.il/home/hassner/projects/cnn_emotions/
+			Contact the developer at will.tyler11@gmail.com.
+			"""
+		self.infoTextView.isHidden = true
 
-				Contact the developer at will.tyler11@gmail.com.
-				"""
-			self.infoTextView.isHidden = true
+		let alertUser: (String, String) -> Void = { title, message in
+			self.requestPresentationStyle(.expanded)
+
+			let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+			alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+			self.present(alert, animated: true, completion: nil)
 		}
+
+		let deniedMessage = "Emoji Detector requires camera access in order to analyze your facial expression. To fix this issue, go to Settings > Privacy > Camera and toggle the selector to allow this app to use the camera."
 
 		switch AVCaptureDevice.authorizationStatus(for: .video) {
 		case .authorized:
 			print("Camera access is authorized.")
 			setupCaptureSession()
-			photoOutput.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
+			photoOutput!.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
 
 		case .denied:
 			print("The user has denied camera permission.")
-			fallthrough
+			alertUser("Camera Access", deniedMessage)
 
 		case .notDetermined:
 			print("Requesting camera access...")
-			AVCaptureDevice.requestAccess(for: .video, completionHandler: { granted in
-				if granted {
+			AVCaptureDevice.requestAccess(for: .video, completionHandler: { (wasGranted: Bool) in
+				if wasGranted {
 					self.setupCaptureSession()
+				}
+				else {
+					alertUser("Camera Access", deniedMessage)
 				}
 			})
 
 		case .restricted:
 			print("The user cannot set camera permission.")
-
-			return
+			alertUser("Camera Access", "Your device is restricted from using the camera. Emoji Detector needs the front camera in order to analyze your facial expression. You must allow camera access for this app to work.")
 		}
     }
     
@@ -118,10 +121,12 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 
-		DispatchQueue.main.async {
-			self.videoPreviewLayer.frame = self.videoPreviewView.bounds
-			self.videoPreviewView.layer.addSublayer(self.videoPreviewLayer)
+		guard videoPreviewLayer != nil else {
+			return
 		}
+
+		self.videoPreviewLayer!.frame = self.videoPreviewView.bounds
+		self.videoPreviewView!.layer.addSublayer(self.videoPreviewLayer!)
 	}
     
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
@@ -192,9 +197,9 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 	private typealias Emojis = (top: Character, second: Character, third: Character, random: Character)
 	private typealias Feeling = (key: Emotion, value: Int)
 
-	private var captureSession: AVCaptureSession!
-	private var photoOutput: AVCapturePhotoOutput!
-	private var videoPreviewLayer: AVCaptureVideoPreviewLayer!
+	private var captureSession: AVCaptureSession?
+	private var photoOutput: AVCapturePhotoOutput?
+	private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
 	private var didConstrainHeight = false
 
 	private func setupCaptureSession() {
@@ -217,22 +222,22 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		captureSession = AVCaptureSession()
 
-		captureSession.beginConfiguration()
+		captureSession!.beginConfiguration()
 
-		captureSession.addInput(input)
+		captureSession!.addInput(input)
 
 		photoOutput = AVCapturePhotoOutput()
-		guard captureSession.canAddOutput(photoOutput) else {
+		guard captureSession!.canAddOutput(photoOutput!) else {
 			fatalError("Cannot add photo output.")
 		}
-		captureSession.addOutput(photoOutput)
+		captureSession!.addOutput(photoOutput!)
 
-		captureSession.commitConfiguration()
+		captureSession!.commitConfiguration()
 
-		videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-		videoPreviewLayer.videoGravity = .resizeAspectFill
+		videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
+		videoPreviewLayer!.videoGravity = .resizeAspectFill
 
-		captureSession.startRunning()
+		captureSession!.startRunning()
 	}
 
 	func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
