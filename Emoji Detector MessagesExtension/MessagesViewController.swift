@@ -99,9 +99,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    // MARK: - Conversation Handling
-    
+
     override func willBecomeActive(with conversation: MSConversation) {
         // Called when the extension is about to move from the inactive to active state.
         // This will happen when the extension is about to present UI.
@@ -117,17 +115,6 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
         // and store enough state information to restore your extension to its current state
         // in case it is terminated later.
     }
-
-	override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
-
-		guard videoPreviewLayer != nil else {
-			return
-		}
-
-		self.videoPreviewLayer!.frame = self.videoPreviewView.bounds
-		self.videoPreviewView!.layer.addSublayer(self.videoPreviewLayer!)
-	}
     
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         // Called before the extension transitions to a new presentation style.
@@ -174,6 +161,17 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		}
     }
 
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+
+		guard videoPreviewLayer != nil else {
+			return
+		}
+
+		self.videoPreviewLayer!.frame = self.videoPreviewView.bounds
+		self.videoPreviewView!.layer.addSublayer(self.videoPreviewLayer!)
+	}
+
 	//MARK: Text view
 	func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
 //		print("Opening", url.absoluteString + "...")
@@ -192,6 +190,11 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 //		webView.load(URLRequest(url: url))
 
 		return true
+	}
+
+	//MARK: Photo capture
+	func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+		detectEmotions(photoData: photo.fileDataRepresentation()!)
 	}
 
 	private typealias Emojis = (top: Character, second: Character, third: Character, random: Character)
@@ -238,10 +241,6 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		videoPreviewLayer!.videoGravity = .resizeAspectFill
 
 		captureSession!.startRunning()
-	}
-
-	func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-		detectEmotions(photoData: photo.fileDataRepresentation()!)
 	}
 
 	private func detectEmotions(photoData: Data) {
