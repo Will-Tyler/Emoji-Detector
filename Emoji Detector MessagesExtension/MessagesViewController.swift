@@ -49,7 +49,9 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 			let _ = NSAttributedString(string: "will.tyler11@gmail.com")
 			self.infoTextView.text =
 				"""
-				Emoji Detector takes photos of your face and uses a machine learning model to determine the best emojis to use based off of your facial expression.
+				Emoji Detector uses photos of your face and a machine learning model to determine the best emojis to use based off of your facial expression.
+
+				If this app isn't displaying the correct emojis, try exaggerating your facial expresssions, or positioning the camera with a different background.
 
 				Emoji Detector runs entirely on your device, and while this means the app uses more storage, any photo captured by this app will not leave your device, and will be gone once your emojis are detected.
 
