@@ -12,9 +12,10 @@ import AVFoundation
 import CoreML
 import Vision
 import WebKit
+import MessageUI
 
 
-class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCaptureDelegate, UITextViewDelegate {
+class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCaptureDelegate, UITextViewDelegate, MFMailComposeViewControllerDelegate {
 
 	//MARK: - Outlets
 	@IBOutlet weak var videoPreviewView: UIView!
@@ -58,14 +59,6 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 			"""
 		self.infoTextView.isHidden = true
 
-		let alertUser: (String, String) -> Void = { title, message in
-			self.requestPresentationStyle(.expanded)
-
-			let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-			alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
-			self.present(alert, animated: true, completion: nil)
-		}
-
 		let deniedMessage = "Emoji Detector requires camera access in order to analyze your facial expression. To fix this issue, go to Settings > Privacy > Camera and toggle the selector to allow this app to use the camera."
 
 		switch AVCaptureDevice.authorizationStatus(for: .video) {
@@ -76,7 +69,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		case .denied:
 			print("The user has denied camera permission.")
-			alertUser("Camera Access", deniedMessage)
+			alertUser(title: "Camera Access", message: deniedMessage)
 
 		case .notDetermined:
 			print("Requesting camera access...")
@@ -85,13 +78,13 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 					self.setupCaptureSession()
 				}
 				else {
-					alertUser("Camera Access", deniedMessage)
+					self.alertUser(title: "Camera Access", message: deniedMessage)
 				}
 			})
 
 		case .restricted:
 			print("The user cannot set camera permission.")
-			alertUser("Camera Access", "Your device is restricted from using the camera. Emoji Detector needs the front camera in order to analyze your facial expression. You must allow camera access for this app to work.")
+			alertUser(title: "Camera Access", message: "Your device is restricted from using the camera. Emoji Detector needs the front camera in order to analyze your facial expression. You must allow camera access for this app to work.")
 		}
     }
     
@@ -176,17 +169,44 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 	func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
 		print("Opening", url.absoluteString + "...")
 
-		if url.absoluteString == "mailto:will.tyler11@gmail.com" {
-			return true
+		if url.absoluteString.hasPrefix("mailto:") {
+			guard MFMailComposeViewController.canSendMail() else {
+				alertUser(title: "Email", message: "Your device is not configured to send email.")
+
+				return false
+			}
+
+			let emailViewController = MFMailComposeViewController()
+			emailViewController.mailComposeDelegate = self
+
+			var email: String = url.absoluteString
+			email.removeFirst("mailto:".count)
+
+			emailViewController.setToRecipients([email])
+			emailViewController.setSubject("Emoji Detector")
+
+			present(emailViewController, animated: true, completion: nil)
+
+			return false
+		}
+		else {
+			let webViewController = storyboard!.instantiateViewController(withIdentifier: "Web View Controller") as! WebViewController
+
+			present(webViewController, animated: true, completion: nil)
+
+			webViewController.webView.load(URLRequest(url: url))
+
+			return false
+		}
+	}
+
+	//MARK: Email composition
+	func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+		if let error = error {
+			print(error)
 		}
 
-		let webViewController = storyboard!.instantiateViewController(withIdentifier: "Web View Controller") as! WebViewController
-
-		present(webViewController, animated: true, completion: nil)
-
-		webViewController.webView.load(URLRequest(url: url))
-
-		return false
+		controller.dismiss(animated: true, completion: nil)
 	}
 
 	//MARK: Photo capture
@@ -194,6 +214,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		detectEmotions(photoData: photo.fileDataRepresentation()!)
 	}
 
+	//MARK: - Private members
 	private typealias Emojis = (top: Character, second: Character, third: Character, random: Character)
 	private typealias Feeling = (key: Emotion, value: Int)
 
@@ -201,6 +222,13 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 	private var photoOutput: AVCapturePhotoOutput?
 	private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
 	private var didConstrainHeight = false
+
+	//MARK: - Private methods
+	private func alertUser(title: String, message: String) {
+		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+		self.present(alert, animated: true, completion: nil)
+	}
 
 	private func setupCaptureSession() {
 		guard let frontCamera: AVCaptureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
