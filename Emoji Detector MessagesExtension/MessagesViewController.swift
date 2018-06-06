@@ -45,7 +45,8 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
         // Do any additional setup after loading the view.
 
 		infoTextView.delegate = self
-		self.infoTextView.text =
+		updateUI {
+			self.infoTextView.text =
 			"""
 			Emoji Detector uses photos of your face and a machine learning model to determine the best emojis to use based off of your facial expression.
 
@@ -57,7 +58,8 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 			Contact the developer at will.tyler11@gmail.com.
 			"""
-		self.infoTextView.isHidden = true
+			self.infoTextView.isHidden = true
+		}
 
 		let deniedMessage = "Emoji Detector requires camera access in order to analyze your facial expression. To fix this issue, go to Settings > Privacy > Camera and toggle the selector to allow this app to use the camera."
 
@@ -115,13 +117,13 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		switch presentationStyle {
 		case .compact:
-			DispatchQueue.main.async {
+			updateUI {
 				self.infoTextView.isHidden = true
 			}
 
 		case .expanded:
 			if !didConstrainHeight {
-				DispatchQueue.main.async {
+				updateUI {
 					self.functionallityContainer.heightAnchor.constraint(equalToConstant: self.functionallityContainer.bounds.height).isActive = true
 					self.didConstrainHeight = true
 				}
@@ -139,13 +141,13 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		switch presentationStyle {
 		case .compact:
 			if !infoTextView.isHidden {
-				DispatchQueue.main.async {
+				updateUI {
 					self.infoTextView.isHidden = true
 				}
 			}
 
 		case .expanded:
-			DispatchQueue.main.async {
+			updateUI {
 				self.infoTextView.isHidden = false
 			}
 
@@ -161,8 +163,10 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 			return
 		}
 
-		self.videoPreviewLayer!.frame = self.videoPreviewView.bounds
-		self.videoPreviewView!.layer.addSublayer(self.videoPreviewLayer!)
+		updateUI {
+			self.videoPreviewLayer!.frame = self.videoPreviewView.bounds
+			self.videoPreviewView!.layer.addSublayer(self.videoPreviewLayer!)
+		}
 	}
 
 	//MARK: Text view
@@ -179,10 +183,10 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 			let emailViewController = MFMailComposeViewController()
 			emailViewController.mailComposeDelegate = self
 
-			var email: String = url.absoluteString
-			email.removeFirst("mailto:".count)
+			var emailAddress: String = url.absoluteString
+			emailAddress.removeFirst("mailto:".count)
 
-			emailViewController.setToRecipients([email])
+			emailViewController.setToRecipients([emailAddress])
 			emailViewController.setSubject("Emoji Detector")
 
 			present(emailViewController, animated: true, completion: nil)
@@ -228,6 +232,10 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
 		self.present(alert, animated: true, completion: nil)
+	}
+
+	private func updateUI(_ block: @escaping ()->Void) {
+		DispatchQueue.main.async(execute: block)
 	}
 
 	private func setupCaptureSession() {
@@ -302,15 +310,17 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		}
 		print("")
 
-		let emojis: Emojis = getEmojis(emotions: emotions)
+		let emojis: Emojis = getEmojisFrom(emotions: emotions)
 
-		emojiButton1.setTitle(String(emojis.top), for: .normal)
-		emojiButton2.setTitle(String(emojis.second), for: .normal)
-		emojiButton3.setTitle(String(emojis.third), for: .normal)
-		emojiButton4.setTitle(String(emojis.random), for: .normal)
+		updateUI {
+			self.emojiButton1.setTitle(String(emojis.top), for: .normal)
+			self.emojiButton2.setTitle(String(emojis.second), for: .normal)
+			self.emojiButton3.setTitle(String(emojis.third), for: .normal)
+			self.emojiButton4.setTitle(String(emojis.random), for: .normal)
+		}
 	}
 
-	private func getEmojis(emotions: [Emotion: Int]) -> Emojis {
+	private func getEmojisFrom(emotions: [Emotion: Int]) -> Emojis {
 		var emojis: Emojis
 
 		let feelings: [Feeling] = emotions.sorted { (left, right) -> Bool in
@@ -318,7 +328,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		}
 
 		let topFeeling = feelings[0]
-		emojis.top = getEmojiForFeeling(feeling: topFeeling)
+		emojis.top = getEmojiFor(feeling: topFeeling)
 
 		let secondFeeling: Feeling
 		switch topFeeling.value {
@@ -330,7 +340,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		default: fatalError()
 		}
-		emojis.second = getEmojiForFeeling(feeling: secondFeeling, without: Set([emojis.top]))
+		emojis.second = getEmojiFor(feeling: secondFeeling, without: Set([emojis.top]))
 
 		let thirdFeeling: Feeling
 		switch topFeeling.value {
@@ -345,14 +355,14 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		default: fatalError()
 		}
-		emojis.third = getEmojiForFeeling(feeling: thirdFeeling, without: Set([emojis.top, emojis.second]))
+		emojis.third = getEmojiFor(feeling: thirdFeeling, without: Set([emojis.top, emojis.second]))
 
 		emojis.random = Random.miscEmoji
 
 		return emojis
 	}
 
-	private func getEmojiForFeeling(feeling: Feeling, without usedEmojis: Set<Character> = Set<Character>()) -> Character {
+	private func getEmojiFor(feeling: Feeling, without usedEmojis: Set<Character> = Set<Character>()) -> Character {
 		switch feeling.key {
 		case .angry:
 			switch feeling.value {
