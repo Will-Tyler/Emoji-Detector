@@ -15,8 +15,6 @@ class WebViewController: UIViewController {
 	@IBOutlet weak var webView: WKWebView!
 	
 	@IBAction func swipeHandler(_ sender: UISwipeGestureRecognizer) {
-		print("Detected swipe in webview going \(sender.direction)...")
-		
 		switch sender.direction {
 		case .left:
 			if webView.canGoForward {
