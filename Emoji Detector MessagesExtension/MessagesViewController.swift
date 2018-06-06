@@ -174,22 +174,19 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 	//MARK: Text view
 	func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
-//		print("Opening", url.absoluteString + "...")
-//
-//		let webViewController = UIViewController()
-//
-//		let closeButton = UIButton(type: .system)
-//		closeButton.setTitle("Close", for: .normal)
-//
-//		let webView = WKWebView(frame: webViewController.view.frame)
-//
-//		webViewController.view = webView
-//
-//		present(webViewController, animated: true, completion: nil)
-//
-//		webView.load(URLRequest(url: url))
+		print("Opening", url.absoluteString + "...")
 
-		return true
+		if url.absoluteString == "mailto:will.tyler11@gmail.com" {
+			return true
+		}
+
+		let webViewController = storyboard!.instantiateViewController(withIdentifier: "Web View Controller") as! WebViewController
+
+		present(webViewController, animated: true, completion: nil)
+
+		webViewController.webView.load(URLRequest(url: url))
+
+		return false
 	}
 
 	//MARK: Photo capture
@@ -275,7 +272,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		}) {
 			print("\(feeling.key.rawValue): \(feeling.value)")
 		}
-		print("\n")
+		print("")
 
 		let emojis: Emojis = getEmojis(emotions: emotions)
 

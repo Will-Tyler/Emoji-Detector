@@ -143,21 +143,74 @@
             </objects>
             <point key="canvasLocation" x="136.23188405797103" y="132.88043478260872"/>
         </scene>
-        <!--View Controller-->
+        <!--Web View Controller-->
         <scene sceneID="JMv-dv-ubl">
             <objects>
-                <viewController id="YHS-f5-jyd" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Web View Controller" id="YHS-f5-jyd" customClass="WebViewController" customModule="Emoji_Detector_MessagesExtension" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xkq-jF-xxH">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sRd-rC-koi">
+                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="UG1-Bi-G7R"/>
+                                </constraints>
+                                <items>
+                                    <navigationItem title="Web View" id="gcX-gf-Ho0">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="uy8-Tn-Fda">
+                                            <connections>
+                                                <action selector="doneButtonPressed:" destination="YHS-f5-jyd" id="Tb2-Pn-RCq"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mxW-50-uZK">
+                                <rect key="frame" x="16" y="80" width="288" height="432"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <gestureRecognizers/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="gPx-o0-bfP" appends="YES" id="M7V-Th-AEf"/>
+                                    <outletCollection property="gestureRecognizers" destination="KxX-RQ-He0" appends="YES" id="kiT-aW-cam"/>
+                                </connections>
+                            </wkWebView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="sRd-rC-koi" firstAttribute="trailing" secondItem="B3R-Gm-tQN" secondAttribute="trailing" id="13x-um-QGU"/>
+                            <constraint firstItem="mxW-50-uZK" firstAttribute="top" secondItem="sRd-rC-koi" secondAttribute="bottom" constant="16" id="7aw-HK-Eop"/>
+                            <constraint firstItem="sRd-rC-koi" firstAttribute="leading" secondItem="B3R-Gm-tQN" secondAttribute="leading" id="El9-jH-v7z"/>
+                            <constraint firstItem="B3R-Gm-tQN" firstAttribute="bottom" secondItem="mxW-50-uZK" secondAttribute="bottom" constant="16" id="Kn4-9v-fj8"/>
+                            <constraint firstItem="B3R-Gm-tQN" firstAttribute="trailing" secondItem="mxW-50-uZK" secondAttribute="trailing" constant="16" id="Nas-sz-FDx"/>
+                            <constraint firstItem="sRd-rC-koi" firstAttribute="top" secondItem="B3R-Gm-tQN" secondAttribute="top" id="OEm-Mb-x9m"/>
+                            <constraint firstItem="mxW-50-uZK" firstAttribute="leading" secondItem="B3R-Gm-tQN" secondAttribute="leading" constant="16" id="ThE-ZR-EvS"/>
+                            <constraint firstItem="mxW-50-uZK" firstAttribute="top" secondItem="sRd-rC-koi" secondAttribute="bottom" constant="16" id="z2c-rM-J8E"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="B3R-Gm-tQN"/>
                     </view>
                     <size key="freeformSize" width="320" height="528"/>
+                    <connections>
+                        <outlet property="webView" destination="mxW-50-uZK" id="3d7-Wy-3wD"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xpj-Gg-Ejl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="gPx-o0-bfP">
+                    <connections>
+                        <action selector="swipeHandler:" destination="YHS-f5-jyd" id="b9K-eQ-258"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="left" id="KxX-RQ-He0">
+                    <connections>
+                        <action selector="swipeHandler:" destination="YHS-f5-jyd" id="KfA-cI-H81"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="868" y="133"/>
+            <point key="canvasLocation" x="866.66666666666674" y="132.88043478260872"/>
         </scene>
     </scenes>
 </document>
