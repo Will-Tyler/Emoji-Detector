@@ -52,7 +52,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 			If this app isn't displaying the correct emojis, try exaggerating your facial expresssions, or positioning the camera with a different background.
 
-			Emoji Detector runs entirely on your device, and while this means the app uses more storage, any photo captured by this app will not leave your device, and will be gone once your emojis are detected.
+			Emoji Detector runs entirely on your device, and while this means the app uses more storage, any photo captured by this app will not leave your device and will be gone once your emojis are detected.
 
 			The machine learning model was developed by Gil Levi and Tal Hassner. https://www.openu.ac.il/home/hassner/projects/cnn_emotions/
 
@@ -63,11 +63,15 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		let deniedMessage = "Emoji Detector requires camera access in order to analyze your facial expression. To fix this issue, go to Settings > Privacy > Camera and toggle the selector to allow this app to use the camera."
 
+		let launch: () -> Void = {
+			self.setupCaptureSession()
+			self.photoOutput?.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
+		}
+
 		switch AVCaptureDevice.authorizationStatus(for: .video) {
 		case .authorized:
 			print("Camera access is authorized.")
-			setupCaptureSession()
-			photoOutput!.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
+			launch()
 
 		case .denied:
 			print("The user has denied camera permission.")
@@ -77,7 +81,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 			print("Requesting camera access...")
 			AVCaptureDevice.requestAccess(for: .video, completionHandler: { (wasGranted: Bool) in
 				if wasGranted {
-					self.setupCaptureSession()
+					launch()
 				}
 				else {
 					self.alertUser(title: "Camera Access", message: deniedMessage)
