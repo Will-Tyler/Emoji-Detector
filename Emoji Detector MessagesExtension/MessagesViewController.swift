@@ -56,7 +56,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 			The machine learning model was developed by Gil Levi and Tal Hassner. https://www.openu.ac.il/home/hassner/projects/cnn_emotions/
 
-			Contact the developer at will.tyler11@gmail.com.
+			If you enjoy this app or have any suggestions, please leave a review on the iMessage App Store!
 			"""
 			self.infoTextView.isHidden = true
 		}
@@ -244,7 +244,9 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 	private func setupCaptureSession() {
 		guard let frontCamera: AVCaptureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
-			fatalError("Could not load front camera.")
+			alertUser(title: "Front Camera", message: "Emoji Detector could not load the front camera.")
+
+			return
 		}
 
 		do {
@@ -256,9 +258,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 			print(error)
 		}
 
-		guard let input = try? AVCaptureDeviceInput(device: frontCamera) else {
-			fatalError("Could not load front camera input.")
-		}
+		let input = try! AVCaptureDeviceInput(device: frontCamera)
 
 		captureSession = AVCaptureSession()
 
