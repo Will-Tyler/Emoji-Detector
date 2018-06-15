@@ -13,6 +13,7 @@ import CoreML
 import Vision
 import WebKit
 import MessageUI
+import SafariServices
 
 
 class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCaptureDelegate, UITextViewDelegate, MFMailComposeViewControllerDelegate {
@@ -92,11 +93,6 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 			print("The user cannot set camera permission.")
 			alertUser(title: "Camera Access", message: "Your device is restricted from using the camera. Emoji Detector needs the front camera in order to analyze your facial expression. You must allow camera access for this app to work.")
 		}
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     override func willBecomeActive(with conversation: MSConversation) {
@@ -198,11 +194,9 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 			return false
 		}
 		else {
-			let webViewController = storyboard!.instantiateViewController(withIdentifier: "Web View Controller") as! WebViewController
+			let safariViewController = SFSafariViewController(url: url)
 
-			present(webViewController, animated: true, completion: nil)
-
-			webViewController.webView.load(URLRequest(url: url))
+			present(safariViewController, animated: true)
 
 			return false
 		}
