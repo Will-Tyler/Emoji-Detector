@@ -12,11 +12,10 @@ import AVFoundation
 import CoreML
 import Vision
 import WebKit
-import MessageUI
 import SafariServices
 
 
-class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCaptureDelegate, UITextViewDelegate, MFMailComposeViewControllerDelegate {
+class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCaptureDelegate, UITextViewDelegate {
 
 	//MARK: - Outlets
 	@IBOutlet weak var videoPreviewView: UIView!
@@ -171,44 +170,11 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 	//MARK: Text view
 	func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
-		print("Opening", url.absoluteString + "...")
+		let safariViewController = SFSafariViewController(url: url)
 
-		if url.absoluteString.hasPrefix("mailto:") {
-			guard MFMailComposeViewController.canSendMail() else {
-				alertUser(title: "Email", message: "Your device is not configured to send email.")
+		present(safariViewController, animated: true)
 
-				return false
-			}
-
-			let emailViewController = MFMailComposeViewController()
-			emailViewController.mailComposeDelegate = self
-
-			var emailAddress: String = url.absoluteString
-			emailAddress.removeFirst("mailto:".count)
-
-			emailViewController.setToRecipients([emailAddress])
-			emailViewController.setSubject("Emoji Detector")
-
-			present(emailViewController, animated: true, completion: nil)
-
-			return false
-		}
-		else {
-			let safariViewController = SFSafariViewController(url: url)
-
-			present(safariViewController, animated: true)
-
-			return false
-		}
-	}
-
-	//MARK: Email composition
-	func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-		if let error = error {
-			print(error)
-		}
-
-		controller.dismiss(animated: true, completion: nil)
+		return false
 	}
 
 	//MARK: Photo capture
