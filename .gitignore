@@ -70,3 +70,5 @@ fastlane/test_output
 Resources/*.mlmodel
 .DS_Store
 EssentialsiOS.framework
+.mov
+.mp4

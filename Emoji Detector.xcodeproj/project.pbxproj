@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4C86EA5E20C758D300BF17BE /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C86EA5D20C758D300BF17BE /* WebViewController.swift */; };
 		4CFB9DBC20C04A610048BB16 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CFB9DBB20C04A610048BB16 /* Assets.xcassets */; };
 		4CFB9DC320C04A610048BB16 /* Emoji Detector MessagesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4CFB9DC220C04A610048BB16 /* Emoji Detector MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4CFB9DC820C04A610048BB16 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFB9DC720C04A610048BB16 /* Messages.framework */; };
@@ -54,7 +53,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4C86EA5D20C758D300BF17BE /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		4CFB9DB820C04A5F0048BB16 /* Emoji Detector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Emoji Detector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CFB9DBB20C04A610048BB16 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4CFB9DBD20C04A610048BB16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -123,7 +121,6 @@
 			isa = PBXGroup;
 			children = (
 				4CFB9DDB20C04A810048BB16 /* MessagesViewController.swift */,
-				4C86EA5D20C758D300BF17BE /* WebViewController.swift */,
 				4CFB9DE620C04AD90048BB16 /* MainInterface.storyboard */,
 				4CFB9DCF20C04A620048BB16 /* Assets.xcassets */,
 				4CFB9DD120C04A620048BB16 /* Info.plist */,
@@ -244,7 +241,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CFB9DE420C04AB70048BB16 /* Random.swift in Sources */,
-				4C86EA5E20C758D300BF17BE /* WebViewController.swift in Sources */,
 				4CFB9DE520C04AB70048BB16 /* CNNEmotions.mlmodel in Sources */,
 				4CFB9DE320C04AB70048BB16 /* Emojis.swift in Sources */,
 				4CFB9DDC20C04A810048BB16 /* MessagesViewController.swift in Sources */,
