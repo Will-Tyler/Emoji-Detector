@@ -23,12 +23,10 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 	let containerStack: UIStackView = {
 		let stackView = UIStackView()
 
-//		stackView.alignment = .fill
-//		stackView.distribution = .fillEqually
-//		stackView.spacing = 16
-//		stackView.axis = .horizontal
-
-		stackView.backgroundColor = .red
+		stackView.alignment = .fill
+		stackView.distribution = .fillEqually
+		stackView.spacing = 16
+		stackView.axis = .horizontal
 
 		return stackView
 	}()
@@ -131,8 +129,8 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 //		rightSideStack.addSubview(emojiButtonsContainer)
 //		rightSideStack.addSubview(reloadButton)
 //
-//		containerStack.addSubview(videoPreviewView)
-//		containerStack.addSubview(rightSideStack)
+		containerStack.addArrangedSubview(videoPreviewView)
+		containerStack.addArrangedSubview(rightSideStack)
 
 		view.addSubview(containerStack)
 
