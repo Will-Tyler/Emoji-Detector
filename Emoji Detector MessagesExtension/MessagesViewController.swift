@@ -20,37 +20,10 @@ import SafariServices
 class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCaptureDelegate, UITextViewDelegate {
 
 	//MARK: - Views
-	let containerStack: UIStackView = {
-		let stackView = UIStackView()
-
-		stackView.alignment = .fill
-		stackView.distribution = .fillEqually
-		stackView.spacing = 16
-		stackView.axis = .horizontal
-
-		return stackView
-	}()
 	let videoPreviewView: UIView = {
 		let view = UIView()
 
 		view.backgroundColor = .blue
-
-		return view
-	}()
-	let rightSideStack: UIStackView = {
-		let stackView = UIStackView()
-
-		stackView.alignment = .fill
-		stackView.distribution = .fill
-		stackView.spacing = 16
-		stackView.axis = .vertical
-
-		return stackView
-	}()
-	let emojiButtonsContainer: UIView = {
-		let view = UIView()
-
-		view.backgroundColor = .red
 
 		return view
 	}()
@@ -66,15 +39,6 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		}
 
 		return array
-	}()
-	let reloadButton: UIButton = {
-		let button = UIButton(type: .system)
-
-		button.setTitle("Reload 🔄", for: .normal)
-		button.backgroundColor = .yellow
-		button.addTarget(self, action: #selector(reloadButtonPressed), for: .touchUpInside)
-
-		return button
 	}()
 	let infoTextView: UITextView = {
 		let textView = UITextView()
@@ -104,9 +68,25 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 	}
 
 	private func setupLayout() {
-		let safeArea = view.safeAreaLayoutGuide
+		let reloadButton: UIButton = {
+			let button = UIButton(type: .system)
+
+			button.setTitle("Reload 🔄", for: .normal)
+			button.backgroundColor = .yellow
+			button.addTarget(self, action: #selector(reloadButtonPressed), for: .touchUpInside)
+
+			return button
+		}()
 
 		reloadButton.heightAnchor.constraint(equalToConstant: reloadButton.intrinsicContentSize.height).isActive = true
+
+		let emojiButtonsContainer: UIView = {
+			let view = UIView()
+
+			view.backgroundColor = .red
+
+			return view
+		}()
 
 		for emojiButton in emojiButtons {
 			emojiButtonsContainer.addSubview(emojiButton)
@@ -145,14 +125,37 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		emojiButtons[1].trailingAnchor.constraint(equalTo: emojiButtonsContainer.trailingAnchor, constant: -4).isActive = true
 		emojiButtons[3].trailingAnchor.constraint(equalTo: emojiButtonsContainer.trailingAnchor, constant: -4).isActive = true
 
+		let rightSideStack: UIStackView = {
+			let stackView = UIStackView()
+
+			stackView.alignment = .fill
+			stackView.distribution = .fill
+			stackView.spacing = 16
+			stackView.axis = .vertical
+
+			return stackView
+		}()
+
 		rightSideStack.addArrangedSubview(emojiButtonsContainer)
 		rightSideStack.addArrangedSubview(reloadButton)
+
+		let containerStack: UIStackView = {
+			let stackView = UIStackView()
+
+			stackView.alignment = .fill
+			stackView.distribution = .fillEqually
+			stackView.spacing = 16
+			stackView.axis = .horizontal
+
+			return stackView
+		}()
 
 		containerStack.addArrangedSubview(videoPreviewView)
 		containerStack.addArrangedSubview(rightSideStack)
 
 		view.addSubview(containerStack)
 
+		let safeArea = view.safeAreaLayoutGuide
 		containerStack.translatesAutoresizingMaskIntoConstraints = false
 		containerStack.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 16).isActive = true
 		containerStack.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16).isActive = true
@@ -171,7 +174,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		let deniedMessage = "Emoji Detector requires camera access in order to analyze your facial expression. To fix this issue, go to Settings > Privacy > Camera and toggle the selector to allow this app to use the camera."
 
-		let launch: () -> Void = {
+		let launch: ()->Void = {
 //			self.setupCaptureSession()
 //			self.photoOutput?.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
 		}
@@ -539,10 +542,10 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		case .surprise:
 			switch feeling.value {
 			case 50...100:
-				return Random.from(Set("🤭😲😵").subtracting(usedEmojis))
+				return Random.from(Set("🤭😱😲😵").subtracting(usedEmojis))
 
 			case 0..<50:
-				return Random.from(Set("😳😱😯😮").subtracting(usedEmojis))
+				return Random.from(Set("😳😯😮").subtracting(usedEmojis))
 
 			default: fatalError()
 			}
