@@ -65,11 +65,18 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		If you enjoy this app or have any suggestions, please leave a review on the iMessage App Store!
 		"""
+		textView.isHidden = true
+		textView.backgroundColor = UIColor.lightGray
+		textView.isEditable = false
+		textView.isSelectable = true
+		textView.font = UIFont.preferredFont(forTextStyle: .body)
+		textView.dataDetectorTypes = .link
 
 		return textView
 	}()
-	private var bottomConstraint: NSLayoutConstraint!
+	private var containerStackBottomConstraint: NSLayoutConstraint!
 	private var didConstrainHeight = false
+	private var didConstrainInfoTextView = false
 
 	//MARK: - Actions
 	@objc func emojiButtonPressed() {
@@ -79,7 +86,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		print("Reloading...")
 	}
 
-	private func setupLayout() {
+	private func setupInitialLayout() {
 		let reloadButton: UIButton = {
 			let button = UIButton(type: .system)
 
@@ -155,14 +162,15 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		containerStack.addArrangedSubview(rightSideStack)
 
 		view.addSubview(containerStack)
+		view.addSubview(infoTextView)
 
 		let safeArea = view.safeAreaLayoutGuide
 		containerStack.translatesAutoresizingMaskIntoConstraints = false
 		containerStack.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 16).isActive = true
 		containerStack.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16).isActive = true
 		containerStack.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16).isActive = true
-		bottomConstraint = containerStack.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -16)
-		bottomConstraint.isActive = true
+		containerStackBottomConstraint = containerStack.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -16)
+		containerStackBottomConstraint.isActive = true
 	}
 
 	//MARK: - Overrides
@@ -172,7 +180,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		infoTextView.delegate = self
 
-		setupLayout()
+		setupInitialLayout()
 
 		let deniedMessage = "Emoji Detector requires camera access in order to analyze your facial expression. To fix this issue, go to Settings > Privacy > Camera and toggle the selector to allow this app to use the camera."
 
@@ -241,19 +249,32 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		switch presentationStyle {
 		case .compact:
-			updateUI {
-				self.infoTextView.isHidden = true
-			}
+			break
 
 		case .expanded:
 			if !didConstrainHeight {
 				containerStack.heightAnchor.constraint(equalToConstant: containerStack.bounds.height).isActive = true
+
 				didConstrainHeight = true
 			}
-			bottomConstraint.isActive = false
 
-		case .transcript:
-			break
+			containerStackBottomConstraint.isActive = false
+
+			if !didConstrainInfoTextView {
+				infoTextView.translatesAutoresizingMaskIntoConstraints = false
+				infoTextView.topAnchor.constraint(equalTo: containerStack.bottomAnchor, constant: 16).isActive = true
+				infoTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+				infoTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
+				infoTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+
+				didConstrainInfoTextView = true
+			}
+
+			updateUI {
+				self.infoTextView.isHidden = false
+			}
+
+		case .transcript: break
 		}
     }
     
@@ -264,19 +285,20 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		switch presentationStyle {
 		case .compact:
-			if !infoTextView.isHidden {
+			updateUI {
+				self.infoTextView.isHidden = true
+			}
+			
+			containerStackBottomConstraint.isActive = true
+
+		case .expanded:
+			if infoTextView.isHidden {
 				updateUI {
-					self.infoTextView.isHidden = true
+					self.infoTextView.isHidden = false
 				}
 			}
 
-		case .expanded:
-			updateUI {
-				self.infoTextView.isHidden = false
-			}
-
-		case .transcript:
-			break
+		case .transcript: break
 		}
     }
 
