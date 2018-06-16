@@ -14,29 +14,88 @@ import Vision
 import WebKit
 import SafariServices
 
+@objc(MessagesViewController)
+
 
 class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCaptureDelegate, UITextViewDelegate {
 
 	//MARK: - Outlets
-	@IBOutlet weak var videoPreviewView: UIView!
-	@IBOutlet weak var infoTextView: UITextView!
-	@IBOutlet weak var functionallityContainer: UIStackView!
+	let container: UIStackView = {
+		let stackView = UIStackView()
 
-	@IBOutlet weak var emojiButton1: UIButton!
-	@IBOutlet weak var emojiButton2: UIButton!
-	@IBOutlet weak var emojiButton3: UIButton!
-	@IBOutlet weak var emojiButton4: UIButton!
+		stackView.alignment = .fill
+		stackView.distribution = .fillEqually
+		stackView.spacing = 16
+		stackView.axis = .horizontal
 
-	//MARK: - Actions
-	@IBAction func emojiButtonPressed(_ sender: UIButton) {
-		requestPresentationStyle(.compact)
+		return stackView
+	}()
+	let videoPreviewView: UIView = {
+		let view = UIView()
 
-		let emoji = sender.title(for: .normal)!
+		view.backgroundColor = .blue
 
-		activeConversation?.insertText(emoji, completionHandler: nil)
-	}
-	@IBAction func reloadButtonPressed(_ sender: UIButton) {
-		photoOutput?.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
+		return view
+	}()
+	let rightSideStack: UIStackView = {
+		let stackView = UIStackView()
+
+		stackView.alignment = .fill
+		stackView.distribution = .fill
+		stackView.spacing = 8
+		stackView.axis = .vertical
+
+		return stackView
+	}()
+	let emojiButtonsContainer: UIView = UIView()
+	let emojiButtons: [UIButton] = {
+		var array = [UIButton]()
+
+		for _ in 1...4 {
+			let button = UIButton()
+			array.append(button)
+		}
+
+		return array
+	}()
+	let reloadButton: UIButton = {
+		let button = UIButton()
+
+		button.setTitle("Reload 🔄", for: .normal)
+
+		return button
+	}()
+	let infoTextView: UITextView = {
+		let textView = UITextView()
+
+		textView.text =
+		"""
+		Emoji Detector uses photos of your face and a machine learning model to determine the best emojis to use based off of your facial expression.
+
+		If this app isn't displaying the correct emojis, try exaggerating your facial expresssions, or positioning the camera with a different background.
+
+		Emoji Detector runs entirely on your device, and while this means the app uses more storage, any photo captured by this app will not leave your device and will be gone once your emojis are detected.
+
+		The machine learning model was developed by Gil Levi and Tal Hassner. https://www.openu.ac.il/home/hassner/projects/cnn_emotions/
+
+		If you enjoy this app or have any suggestions, please leave a review on the iMessage App Store!
+		"""
+
+		return textView
+	}()
+
+	private func setupLayout() {
+		for emojiButton in emojiButtons {
+			emojiButtonsContainer.addSubview(emojiButton)
+		}
+
+		rightSideStack.addSubview(emojiButtonsContainer)
+		rightSideStack.addSubview(reloadButton)
+
+		container.addSubview(videoPreviewView)
+		container.addSubview(rightSideStack)
+
+		view.addSubview(container)
 	}
 
 	//MARK: - Overrides
@@ -44,28 +103,17 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
         super.viewDidLoad()
         // Do any additional setup after loading the view.
 
+		view = UIView()
+
 		infoTextView.delegate = self
-		updateUI {
-			self.infoTextView.text =
-			"""
-			Emoji Detector uses photos of your face and a machine learning model to determine the best emojis to use based off of your facial expression.
 
-			If this app isn't displaying the correct emojis, try exaggerating your facial expresssions, or positioning the camera with a different background.
-
-			Emoji Detector runs entirely on your device, and while this means the app uses more storage, any photo captured by this app will not leave your device and will be gone once your emojis are detected.
-
-			The machine learning model was developed by Gil Levi and Tal Hassner. https://www.openu.ac.il/home/hassner/projects/cnn_emotions/
-
-			If you enjoy this app or have any suggestions, please leave a review on the iMessage App Store!
-			"""
-			self.infoTextView.isHidden = true
-		}
+		setupLayout()
 
 		let deniedMessage = "Emoji Detector requires camera access in order to analyze your facial expression. To fix this issue, go to Settings > Privacy > Camera and toggle the selector to allow this app to use the camera."
 
 		let launch: () -> Void = {
-			self.setupCaptureSession()
-			self.photoOutput?.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
+//			self.setupCaptureSession()
+//			self.photoOutput?.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
 		}
 
 		switch AVCaptureDevice.authorizationStatus(for: .video) {
@@ -123,7 +171,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		case .expanded:
 			if !didConstrainHeight {
 				updateUI {
-					self.functionallityContainer.heightAnchor.constraint(equalToConstant: self.functionallityContainer.bounds.height).isActive = true
+					self.container.heightAnchor.constraint(equalToConstant: self.container.bounds.height).isActive = true
 					self.didConstrainHeight = true
 				}
 			}
@@ -164,7 +212,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		updateUI {
 			self.videoPreviewLayer!.frame = self.videoPreviewView.bounds
-			self.videoPreviewView!.layer.addSublayer(self.videoPreviewLayer!)
+			self.videoPreviewView.layer.addSublayer(self.videoPreviewLayer!)
 		}
 	}
 
@@ -192,6 +240,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 	private var didConstrainHeight = false
 
 	//MARK: - Private methods
+	
 	private func alertUser(title: String, message: String) {
 		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
@@ -241,9 +290,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 	}
 
 	private func detectEmotions(photoData: Data) {
-		guard let model = try? VNCoreMLModel(for: CNNEmotions().model) else {
-			fatalError("Could not load CNNEmotions model.")
-		}
+		let model = try! VNCoreMLModel(for: CNNEmotions().model)
 
 		let request = VNCoreMLRequest(model: model, completionHandler: { request, error in
 			guard let results = request.results as? [VNClassificationObservation] else {
@@ -272,15 +319,15 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		}) {
 			print("\(feeling.key.rawValue): \(feeling.value)")
 		}
-		print("")
+		print("\n", terminator: "")
 
 		let emojis: Emojis = getEmojisFrom(emotions: emotions)
 
 		updateUI {
-			self.emojiButton1.setTitle(String(emojis.top), for: .normal)
-			self.emojiButton2.setTitle(String(emojis.second), for: .normal)
-			self.emojiButton3.setTitle(String(emojis.third), for: .normal)
-			self.emojiButton4.setTitle(String(emojis.random), for: .normal)
+			self.emojiButtons[0].setTitle(String(emojis.top), for: .normal)
+			self.emojiButtons[1].setTitle(String(emojis.second), for: .normal)
+			self.emojiButtons[2].setTitle(String(emojis.third), for: .normal)
+			self.emojiButtons[3].setTitle(String(emojis.random), for: .normal)
 		}
 	}
 
