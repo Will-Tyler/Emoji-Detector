@@ -19,14 +19,16 @@ import SafariServices
 
 class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCaptureDelegate, UITextViewDelegate {
 
-	//MARK: - Outlets
-	let container: UIStackView = {
+	//MARK: - Views
+	let containerStack: UIStackView = {
 		let stackView = UIStackView()
 
-		stackView.alignment = .fill
-		stackView.distribution = .fillEqually
-		stackView.spacing = 16
-		stackView.axis = .horizontal
+//		stackView.alignment = .fill
+//		stackView.distribution = .fillEqually
+//		stackView.spacing = 16
+//		stackView.axis = .horizontal
+
+		stackView.backgroundColor = .red
 
 		return stackView
 	}()
@@ -85,25 +87,66 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 	}()
 
 	private func setupLayout() {
-		for emojiButton in emojiButtons {
-			emojiButtonsContainer.addSubview(emojiButton)
-		}
+		let safeArea = view.safeAreaLayoutGuide
 
-		rightSideStack.addSubview(emojiButtonsContainer)
-		rightSideStack.addSubview(reloadButton)
+//		for emojiButton in emojiButtons {
+//			emojiButtonsContainer.addSubview(emojiButton)
+//		}
+//
+//		for emojiButton in emojiButtons {
+//			emojiButton.translatesAutoresizingMaskIntoConstraints = false
+//		}
+//
+//		// buttons to each other
+//		emojiButtons[0].trailingAnchor.constraint(equalTo: emojiButtons[1].leadingAnchor, constant: 4).isActive = true
+//		emojiButtons[0].bottomAnchor.constraint(equalTo: emojiButtons[2].topAnchor, constant: 4).isActive = true
+//		emojiButtons[1].bottomAnchor.constraint(equalTo: emojiButtons[3].topAnchor, constant: 4).isActive = true
+//		emojiButtons[2].trailingAnchor.constraint(equalTo: emojiButtons[3].leadingAnchor, constant: 4).isActive = true
+//
+//		emojiButtons[0].heightAnchor.constraint(equalTo: emojiButtons[1].heightAnchor).isActive = true
+//		emojiButtons[0].heightAnchor.constraint(equalTo: emojiButtons[2].heightAnchor).isActive = true
+//		emojiButtons[0].heightAnchor.constraint(equalTo: emojiButtons[3].heightAnchor).isActive = true
+//
+//		emojiButtons[0].widthAnchor.constraint(equalTo: emojiButtons[1].widthAnchor).isActive = true
+//		emojiButtons[0].widthAnchor.constraint(equalTo: emojiButtons[2].widthAnchor).isActive = true
+//		emojiButtons[0].widthAnchor.constraint(equalTo: emojiButtons[3].widthAnchor).isActive = true
+//
+//		emojiButtons[0].centerXAnchor.constraint(equalTo: emojiButtons[2].centerXAnchor).isActive = true
+//		emojiButtons[1].centerXAnchor.constraint(equalTo: emojiButtons[3].centerXAnchor).isActive = true
+//
+//		emojiButtons[0].centerYAnchor.constraint(equalTo: emojiButtons[1].centerYAnchor).isActive = true
+//		emojiButtons[2].centerYAnchor.constraint(equalTo: emojiButtons[3].centerYAnchor).isActive = true
+//
+//		// buttons to container
+//		emojiButtonsContainer.translatesAutoresizingMaskIntoConstraints = false
+//		emojiButtons[0].topAnchor.constraint(equalTo: emojiButtonsContainer.topAnchor, constant: 4).isActive = true
+//		emojiButtons[1].topAnchor.constraint(equalTo: emojiButtonsContainer.topAnchor, constant: 4).isActive = true
+//		emojiButtons[2].bottomAnchor.constraint(equalTo: emojiButtonsContainer.bottomAnchor, constant: -4).isActive = true
+//		emojiButtons[3].bottomAnchor.constraint(equalTo: emojiButtonsContainer.bottomAnchor, constant: -4).isActive = true
+//		emojiButtons[0].leadingAnchor.constraint(equalTo: emojiButtonsContainer.leadingAnchor, constant: 4).isActive = true
+//		emojiButtons[2].leadingAnchor.constraint(equalTo: emojiButtonsContainer.leadingAnchor, constant: 4).isActive = true
+//		emojiButtons[1].trailingAnchor.constraint(equalTo: emojiButtonsContainer.trailingAnchor, constant: -4).isActive = true
+//		emojiButtons[3].trailingAnchor.constraint(equalTo: emojiButtonsContainer.trailingAnchor, constant: -4).isActive = true
+//
+//		rightSideStack.addSubview(emojiButtonsContainer)
+//		rightSideStack.addSubview(reloadButton)
+//
+//		containerStack.addSubview(videoPreviewView)
+//		containerStack.addSubview(rightSideStack)
 
-		container.addSubview(videoPreviewView)
-		container.addSubview(rightSideStack)
+		view.addSubview(containerStack)
 
-		view.addSubview(container)
+		containerStack.translatesAutoresizingMaskIntoConstraints = false
+		containerStack.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 16).isActive = true
+		containerStack.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16).isActive = true
+		containerStack.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16).isActive = true
+		containerStack.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -16).isActive = true
 	}
 
 	//MARK: - Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-
-		view = UIView()
 
 		infoTextView.delegate = self
 
@@ -169,12 +212,13 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 			}
 
 		case .expanded:
-			if !didConstrainHeight {
-				updateUI {
-					self.container.heightAnchor.constraint(equalToConstant: self.container.bounds.height).isActive = true
-					self.didConstrainHeight = true
-				}
-			}
+//			if !didConstrainHeight {
+//				updateUI {
+//					self.container.heightAnchor.constraint(equalToConstant: self.container.bounds.height).isActive = true
+//					self.didConstrainHeight = true
+//				}
+//			}
+			fallthrough
 
 		case .transcript:
 			break
