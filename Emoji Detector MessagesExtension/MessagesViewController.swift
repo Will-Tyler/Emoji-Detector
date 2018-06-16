@@ -42,11 +42,22 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		for _ in 1...4 {
 			let button = UIButton()
+
 			button.backgroundColor = .green
+			button.titleLabel!.numberOfLines = 1
+			button.titleLabel!.adjustsFontSizeToFitWidth = true
+			button.titleLabel!.lineBreakMode = .byClipping
+			button.titleLabel!.baselineAdjustment = .alignCenters
+			button.titleLabel!.font = button.titleLabel!.font.withSize(48)
 			button.addTarget(self, action: #selector(emojiButtonPressed), for: .touchUpInside)
 
 			array.append(button)
 		}
+
+		array[0].setTitle("❗️", for: .normal)
+		array[1].setTitle("❔", for: .normal)
+		array[2].setTitle("❕", for: .normal)
+		array[3].setTitle("❓", for: .normal)
 
 		return array
 	}()
@@ -79,11 +90,13 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 	private var didConstrainInfoTextView = false
 
 	//MARK: - Actions
-	@objc func emojiButtonPressed() {
-		print("Emoji button pressed...")
+	@objc func emojiButtonPressed(_ sender: UIButton) {
+		requestPresentationStyle(.compact)
+
+		activeConversation!.insertText(sender.title(for: .normal)!, completionHandler: nil)
 	}
 	@objc func reloadButtonPressed() {
-		print("Reloading...")
+		photoOutput?.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
 	}
 
 	private func setupInitialLayout() {
@@ -185,8 +198,8 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		let deniedMessage = "Emoji Detector requires camera access in order to analyze your facial expression. To fix this issue, go to Settings > Privacy > Camera and toggle the selector to allow this app to use the camera."
 
 		let launch: ()->Void = {
-//			self.setupCaptureSession()
-//			self.photoOutput?.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
+			self.setupCaptureSession()
+			self.photoOutput?.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
 		}
 
 		switch AVCaptureDevice.authorizationStatus(for: .video) {
@@ -288,7 +301,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 			updateUI {
 				self.infoTextView.isHidden = true
 			}
-			
+
 			containerStackBottomConstraint.isActive = true
 
 		case .expanded:
