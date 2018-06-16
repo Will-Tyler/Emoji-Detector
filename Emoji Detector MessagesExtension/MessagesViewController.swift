@@ -20,6 +20,16 @@ import SafariServices
 class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCaptureDelegate, UITextViewDelegate {
 
 	//MARK: - Views
+	let containerStack: UIStackView = {
+		let stackView = UIStackView()
+
+		stackView.alignment = .fill
+		stackView.distribution = .fillEqually
+		stackView.spacing = 16
+		stackView.axis = .horizontal
+
+		return stackView
+	}()
 	let videoPreviewView: UIView = {
 		let view = UIView()
 
@@ -58,6 +68,8 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		return textView
 	}()
+	private var bottomConstraint: NSLayoutConstraint!
+	private var didConstrainHeight = false
 
 	//MARK: - Actions
 	@objc func emojiButtonPressed() {
@@ -139,17 +151,6 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		rightSideStack.addArrangedSubview(emojiButtonsContainer)
 		rightSideStack.addArrangedSubview(reloadButton)
 
-		let containerStack: UIStackView = {
-			let stackView = UIStackView()
-
-			stackView.alignment = .fill
-			stackView.distribution = .fillEqually
-			stackView.spacing = 16
-			stackView.axis = .horizontal
-
-			return stackView
-		}()
-
 		containerStack.addArrangedSubview(videoPreviewView)
 		containerStack.addArrangedSubview(rightSideStack)
 
@@ -160,7 +161,8 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		containerStack.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 16).isActive = true
 		containerStack.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16).isActive = true
 		containerStack.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16).isActive = true
-		containerStack.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -16).isActive = true
+		bottomConstraint = containerStack.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -16)
+		bottomConstraint.isActive = true
 	}
 
 	//MARK: - Overrides
@@ -220,8 +222,20 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
         // and store enough state information to restore your extension to its current state
         // in case it is terminated later.
     }
+
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+
+		if videoPreviewLayer != nil {
+			updateUI {
+				self.videoPreviewLayer!.frame = self.videoPreviewView.bounds
+				self.videoPreviewView.layer.addSublayer(self.videoPreviewLayer!)
+			}
+		}
+	}
     
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
+		super.willTransition(to: presentationStyle)
         // Called before the extension transitions to a new presentation style.
         // Use this method to prepare for the change in presentation style.
 
@@ -232,13 +246,11 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 			}
 
 		case .expanded:
-//			if !didConstrainHeight {
-//				updateUI {
-//					self.container.heightAnchor.constraint(equalToConstant: self.container.bounds.height).isActive = true
-//					self.didConstrainHeight = true
-//				}
-//			}
-			fallthrough
+			if !didConstrainHeight {
+				containerStack.heightAnchor.constraint(equalToConstant: containerStack.bounds.height).isActive = true
+				didConstrainHeight = true
+			}
+			bottomConstraint.isActive = false
 
 		case .transcript:
 			break
@@ -246,6 +258,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
     }
     
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
+		super.didTransition(to: presentationStyle)
         // Called after the extension transitions to a new presentation style.
         // Use this method to finalize any behaviors associated with the change in presentation style.
 
@@ -266,19 +279,6 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 			break
 		}
     }
-
-	override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
-
-		guard videoPreviewLayer != nil else {
-			return
-		}
-
-		updateUI {
-			self.videoPreviewLayer!.frame = self.videoPreviewView.bounds
-			self.videoPreviewView.layer.addSublayer(self.videoPreviewLayer!)
-		}
-	}
 
 	//MARK: Text view
 	func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
@@ -301,14 +301,13 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 	private var captureSession: AVCaptureSession?
 	private var photoOutput: AVCapturePhotoOutput?
 	private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
-	private var didConstrainHeight = false
 
 	//MARK: - Private methods
 	
 	private func alertUser(title: String, message: String) {
 		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
-		self.present(alert, animated: true, completion: nil)
+		present(alert, animated: true, completion: nil)
 	}
 
 	private func updateUI(_ block: @escaping ()->Void) {
