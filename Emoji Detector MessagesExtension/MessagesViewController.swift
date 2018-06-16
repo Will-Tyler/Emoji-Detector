@@ -42,26 +42,37 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		stackView.alignment = .fill
 		stackView.distribution = .fill
-		stackView.spacing = 8
+		stackView.spacing = 16
 		stackView.axis = .vertical
 
 		return stackView
 	}()
-	let emojiButtonsContainer: UIView = UIView()
+	let emojiButtonsContainer: UIView = {
+		let view = UIView()
+
+		view.backgroundColor = .red
+
+		return view
+	}()
 	let emojiButtons: [UIButton] = {
 		var array = [UIButton]()
 
 		for _ in 1...4 {
 			let button = UIButton()
+			button.backgroundColor = .green
+			button.addTarget(self, action: #selector(emojiButtonPressed), for: .touchUpInside)
+
 			array.append(button)
 		}
 
 		return array
 	}()
 	let reloadButton: UIButton = {
-		let button = UIButton()
+		let button = UIButton(type: .system)
 
 		button.setTitle("Reload 🔄", for: .normal)
+		button.backgroundColor = .yellow
+		button.addTarget(self, action: #selector(reloadButtonPressed), for: .touchUpInside)
 
 		return button
 	}()
@@ -84,51 +95,59 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		return textView
 	}()
 
+	//MARK: - Actions
+	@objc func emojiButtonPressed() {
+		print("Emoji button pressed...")
+	}
+	@objc func reloadButtonPressed() {
+		print("Reloading...")
+	}
+
 	private func setupLayout() {
 		let safeArea = view.safeAreaLayoutGuide
 
-//		for emojiButton in emojiButtons {
-//			emojiButtonsContainer.addSubview(emojiButton)
-//		}
-//
-//		for emojiButton in emojiButtons {
-//			emojiButton.translatesAutoresizingMaskIntoConstraints = false
-//		}
-//
-//		// buttons to each other
-//		emojiButtons[0].trailingAnchor.constraint(equalTo: emojiButtons[1].leadingAnchor, constant: 4).isActive = true
-//		emojiButtons[0].bottomAnchor.constraint(equalTo: emojiButtons[2].topAnchor, constant: 4).isActive = true
-//		emojiButtons[1].bottomAnchor.constraint(equalTo: emojiButtons[3].topAnchor, constant: 4).isActive = true
-//		emojiButtons[2].trailingAnchor.constraint(equalTo: emojiButtons[3].leadingAnchor, constant: 4).isActive = true
-//
-//		emojiButtons[0].heightAnchor.constraint(equalTo: emojiButtons[1].heightAnchor).isActive = true
-//		emojiButtons[0].heightAnchor.constraint(equalTo: emojiButtons[2].heightAnchor).isActive = true
-//		emojiButtons[0].heightAnchor.constraint(equalTo: emojiButtons[3].heightAnchor).isActive = true
-//
-//		emojiButtons[0].widthAnchor.constraint(equalTo: emojiButtons[1].widthAnchor).isActive = true
-//		emojiButtons[0].widthAnchor.constraint(equalTo: emojiButtons[2].widthAnchor).isActive = true
-//		emojiButtons[0].widthAnchor.constraint(equalTo: emojiButtons[3].widthAnchor).isActive = true
-//
-//		emojiButtons[0].centerXAnchor.constraint(equalTo: emojiButtons[2].centerXAnchor).isActive = true
-//		emojiButtons[1].centerXAnchor.constraint(equalTo: emojiButtons[3].centerXAnchor).isActive = true
-//
-//		emojiButtons[0].centerYAnchor.constraint(equalTo: emojiButtons[1].centerYAnchor).isActive = true
-//		emojiButtons[2].centerYAnchor.constraint(equalTo: emojiButtons[3].centerYAnchor).isActive = true
-//
-//		// buttons to container
-//		emojiButtonsContainer.translatesAutoresizingMaskIntoConstraints = false
-//		emojiButtons[0].topAnchor.constraint(equalTo: emojiButtonsContainer.topAnchor, constant: 4).isActive = true
-//		emojiButtons[1].topAnchor.constraint(equalTo: emojiButtonsContainer.topAnchor, constant: 4).isActive = true
-//		emojiButtons[2].bottomAnchor.constraint(equalTo: emojiButtonsContainer.bottomAnchor, constant: -4).isActive = true
-//		emojiButtons[3].bottomAnchor.constraint(equalTo: emojiButtonsContainer.bottomAnchor, constant: -4).isActive = true
-//		emojiButtons[0].leadingAnchor.constraint(equalTo: emojiButtonsContainer.leadingAnchor, constant: 4).isActive = true
-//		emojiButtons[2].leadingAnchor.constraint(equalTo: emojiButtonsContainer.leadingAnchor, constant: 4).isActive = true
-//		emojiButtons[1].trailingAnchor.constraint(equalTo: emojiButtonsContainer.trailingAnchor, constant: -4).isActive = true
-//		emojiButtons[3].trailingAnchor.constraint(equalTo: emojiButtonsContainer.trailingAnchor, constant: -4).isActive = true
-//
-//		rightSideStack.addSubview(emojiButtonsContainer)
-//		rightSideStack.addSubview(reloadButton)
-//
+		reloadButton.heightAnchor.constraint(equalToConstant: reloadButton.intrinsicContentSize.height).isActive = true
+
+		for emojiButton in emojiButtons {
+			emojiButtonsContainer.addSubview(emojiButton)
+		}
+
+		for emojiButton in emojiButtons {
+			emojiButton.translatesAutoresizingMaskIntoConstraints = false
+		}
+
+		// buttons to each other
+		emojiButtons[0].trailingAnchor.constraint(equalTo: emojiButtons[1].leadingAnchor, constant: -4).isActive = true
+		emojiButtons[0].bottomAnchor.constraint(equalTo: emojiButtons[2].topAnchor, constant: -4).isActive = true
+
+		emojiButtons[0].heightAnchor.constraint(equalTo: emojiButtons[1].heightAnchor).isActive = true
+		emojiButtons[0].heightAnchor.constraint(equalTo: emojiButtons[2].heightAnchor).isActive = true
+		emojiButtons[0].heightAnchor.constraint(equalTo: emojiButtons[3].heightAnchor).isActive = true
+
+		emojiButtons[0].widthAnchor.constraint(equalTo: emojiButtons[1].widthAnchor).isActive = true
+		emojiButtons[0].widthAnchor.constraint(equalTo: emojiButtons[2].widthAnchor).isActive = true
+		emojiButtons[0].widthAnchor.constraint(equalTo: emojiButtons[3].widthAnchor).isActive = true
+
+		emojiButtons[0].centerXAnchor.constraint(equalTo: emojiButtons[2].centerXAnchor).isActive = true
+		emojiButtons[1].centerXAnchor.constraint(equalTo: emojiButtons[3].centerXAnchor).isActive = true
+
+		emojiButtons[0].centerYAnchor.constraint(equalTo: emojiButtons[1].centerYAnchor).isActive = true
+		emojiButtons[2].centerYAnchor.constraint(equalTo: emojiButtons[3].centerYAnchor).isActive = true
+
+		// buttons to container
+		emojiButtonsContainer.translatesAutoresizingMaskIntoConstraints = false
+		emojiButtons[0].topAnchor.constraint(equalTo: emojiButtonsContainer.topAnchor, constant: 4).isActive = true
+		emojiButtons[1].topAnchor.constraint(equalTo: emojiButtonsContainer.topAnchor, constant: 4).isActive = true
+		emojiButtons[2].bottomAnchor.constraint(equalTo: emojiButtonsContainer.bottomAnchor, constant: -4).isActive = true
+		emojiButtons[3].bottomAnchor.constraint(equalTo: emojiButtonsContainer.bottomAnchor, constant: -4).isActive = true
+		emojiButtons[0].leadingAnchor.constraint(equalTo: emojiButtonsContainer.leadingAnchor, constant: 4).isActive = true
+		emojiButtons[2].leadingAnchor.constraint(equalTo: emojiButtonsContainer.leadingAnchor, constant: 4).isActive = true
+		emojiButtons[1].trailingAnchor.constraint(equalTo: emojiButtonsContainer.trailingAnchor, constant: -4).isActive = true
+		emojiButtons[3].trailingAnchor.constraint(equalTo: emojiButtonsContainer.trailingAnchor, constant: -4).isActive = true
+
+		rightSideStack.addArrangedSubview(emojiButtonsContainer)
+		rightSideStack.addArrangedSubview(reloadButton)
+
 		containerStack.addArrangedSubview(videoPreviewView)
 		containerStack.addArrangedSubview(rightSideStack)
 
