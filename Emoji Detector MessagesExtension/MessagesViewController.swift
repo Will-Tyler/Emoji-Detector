@@ -14,29 +14,176 @@ import Vision
 import WebKit
 import SafariServices
 
+@objc(MessagesViewController)
+
 
 class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCaptureDelegate, UITextViewDelegate {
 
-	//MARK: - Outlets
-	@IBOutlet weak var videoPreviewView: UIView!
-	@IBOutlet weak var infoTextView: UITextView!
-	@IBOutlet weak var functionallityContainer: UIStackView!
+	//MARK: - Views
+	let containerStack: UIStackView = {
+		let stackView = UIStackView()
 
-	@IBOutlet weak var emojiButton1: UIButton!
-	@IBOutlet weak var emojiButton2: UIButton!
-	@IBOutlet weak var emojiButton3: UIButton!
-	@IBOutlet weak var emojiButton4: UIButton!
+		stackView.alignment = .fill
+		stackView.distribution = .fillEqually
+		stackView.spacing = 16
+		stackView.axis = .horizontal
+
+		return stackView
+	}()
+	let videoPreviewView: UIView = {
+		let view = UIView()
+
+		view.backgroundColor = .blue
+
+		return view
+	}()
+	let emojiButtons: [UIButton] = {
+		var array = [UIButton]()
+
+		for _ in 1...4 {
+			let button = UIButton()
+
+//			button.backgroundColor = .green
+			button.titleLabel!.numberOfLines = 1
+			button.titleLabel!.adjustsFontSizeToFitWidth = true
+			button.titleLabel!.lineBreakMode = .byClipping
+			button.titleLabel!.baselineAdjustment = .alignCenters
+			button.titleLabel!.font = button.titleLabel!.font.withSize(48)
+			button.addTarget(self, action: #selector(emojiButtonPressed), for: .touchUpInside)
+
+			array.append(button)
+		}
+
+		array[0].setTitle("❗️", for: .normal)
+		array[1].setTitle("❔", for: .normal)
+		array[2].setTitle("❕", for: .normal)
+		array[3].setTitle("❓", for: .normal)
+
+		return array
+	}()
+	let infoTextView: UITextView = {
+		let textView = UITextView()
+
+		textView.text =
+		"""
+		Emoji Detector uses photos of your face and a machine learning model to determine the best emojis to use based off of your facial expression.
+
+		If this app isn't displaying the correct emojis, try exaggerating your facial expresssions, or positioning the camera with a different background.
+
+		Emoji Detector runs entirely on your device, and while this means the app uses more storage, any photo captured by this app will not leave your device and will be gone once your emojis are detected.
+
+		The machine learning model was developed by Gil Levi and Tal Hassner. https://www.openu.ac.il/home/hassner/projects/cnn_emotions/
+
+		If you enjoy this app or have any suggestions, please leave a review on the iMessage App Store!
+		"""
+		textView.isHidden = true
+//		textView.backgroundColor = UIColor.lightGray
+		textView.isEditable = false
+		textView.isSelectable = true
+		textView.font = UIFont.preferredFont(forTextStyle: .body)
+		textView.dataDetectorTypes = .link
+
+		return textView
+	}()
+	private var containerStackBottomConstraint: NSLayoutConstraint!
+	private var didConstrainHeight = false
+	private var didConstrainInfoTextView = false
 
 	//MARK: - Actions
-	@IBAction func emojiButtonPressed(_ sender: UIButton) {
+	@objc func emojiButtonPressed(_ sender: UIButton) {
 		requestPresentationStyle(.compact)
 
-		let emoji = sender.title(for: .normal)!
-
-		activeConversation?.insertText(emoji, completionHandler: nil)
+		activeConversation!.insertText(sender.title(for: .normal)!, completionHandler: nil)
 	}
-	@IBAction func reloadButtonPressed(_ sender: UIButton) {
+	@objc func reloadButtonPressed() {
 		photoOutput?.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
+	}
+
+	private func setupInitialLayout() {
+		let reloadButton: UIButton = {
+			let button = UIButton(type: .system)
+
+			button.setTitle("Reload 🔄", for: .normal)
+//			button.backgroundColor = .yellow
+			button.addTarget(self, action: #selector(reloadButtonPressed), for: .touchUpInside)
+
+			return button
+		}()
+
+		reloadButton.heightAnchor.constraint(equalToConstant: reloadButton.intrinsicContentSize.height).isActive = true
+
+		let emojiButtonsContainer: UIView = {
+			let view = UIView()
+
+//			view.backgroundColor = .red
+
+			return view
+		}()
+
+		for emojiButton in emojiButtons {
+			emojiButtonsContainer.addSubview(emojiButton)
+		}
+
+		for emojiButton in emojiButtons {
+			emojiButton.translatesAutoresizingMaskIntoConstraints = false
+		}
+
+		// buttons to each other
+		emojiButtons[0].trailingAnchor.constraint(equalTo: emojiButtons[1].leadingAnchor, constant: -4).isActive = true
+		emojiButtons[0].bottomAnchor.constraint(equalTo: emojiButtons[2].topAnchor, constant: -4).isActive = true
+
+		emojiButtons[0].heightAnchor.constraint(equalTo: emojiButtons[1].heightAnchor).isActive = true
+		emojiButtons[0].heightAnchor.constraint(equalTo: emojiButtons[2].heightAnchor).isActive = true
+		emojiButtons[0].heightAnchor.constraint(equalTo: emojiButtons[3].heightAnchor).isActive = true
+
+		emojiButtons[0].widthAnchor.constraint(equalTo: emojiButtons[1].widthAnchor).isActive = true
+		emojiButtons[0].widthAnchor.constraint(equalTo: emojiButtons[2].widthAnchor).isActive = true
+		emojiButtons[0].widthAnchor.constraint(equalTo: emojiButtons[3].widthAnchor).isActive = true
+
+		emojiButtons[0].centerXAnchor.constraint(equalTo: emojiButtons[2].centerXAnchor).isActive = true
+		emojiButtons[1].centerXAnchor.constraint(equalTo: emojiButtons[3].centerXAnchor).isActive = true
+
+		emojiButtons[0].centerYAnchor.constraint(equalTo: emojiButtons[1].centerYAnchor).isActive = true
+		emojiButtons[2].centerYAnchor.constraint(equalTo: emojiButtons[3].centerYAnchor).isActive = true
+
+		// buttons to container
+		emojiButtonsContainer.translatesAutoresizingMaskIntoConstraints = false
+		emojiButtons[0].topAnchor.constraint(equalTo: emojiButtonsContainer.topAnchor, constant: 4).isActive = true
+		emojiButtons[1].topAnchor.constraint(equalTo: emojiButtonsContainer.topAnchor, constant: 4).isActive = true
+		emojiButtons[2].bottomAnchor.constraint(equalTo: emojiButtonsContainer.bottomAnchor, constant: -4).isActive = true
+		emojiButtons[3].bottomAnchor.constraint(equalTo: emojiButtonsContainer.bottomAnchor, constant: -4).isActive = true
+		emojiButtons[0].leadingAnchor.constraint(equalTo: emojiButtonsContainer.leadingAnchor, constant: 4).isActive = true
+		emojiButtons[2].leadingAnchor.constraint(equalTo: emojiButtonsContainer.leadingAnchor, constant: 4).isActive = true
+		emojiButtons[1].trailingAnchor.constraint(equalTo: emojiButtonsContainer.trailingAnchor, constant: -4).isActive = true
+		emojiButtons[3].trailingAnchor.constraint(equalTo: emojiButtonsContainer.trailingAnchor, constant: -4).isActive = true
+
+		let rightSideStack: UIStackView = {
+			let stackView = UIStackView()
+
+			stackView.alignment = .fill
+			stackView.distribution = .fill
+			stackView.spacing = 16
+			stackView.axis = .vertical
+
+			return stackView
+		}()
+
+		rightSideStack.addArrangedSubview(emojiButtonsContainer)
+		rightSideStack.addArrangedSubview(reloadButton)
+
+		containerStack.addArrangedSubview(videoPreviewView)
+		containerStack.addArrangedSubview(rightSideStack)
+
+		view.addSubview(containerStack)
+		view.addSubview(infoTextView)
+
+		let safeArea = view.safeAreaLayoutGuide
+		containerStack.translatesAutoresizingMaskIntoConstraints = false
+		containerStack.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 16).isActive = true
+		containerStack.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16).isActive = true
+		containerStack.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16).isActive = true
+		containerStackBottomConstraint = containerStack.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -16)
+		containerStackBottomConstraint.isActive = true
 	}
 
 	//MARK: - Overrides
@@ -45,25 +192,12 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
         // Do any additional setup after loading the view.
 
 		infoTextView.delegate = self
-		updateUI {
-			self.infoTextView.text =
-			"""
-			Emoji Detector uses photos of your face and a machine learning model to determine the best emojis to use based off of your facial expression.
 
-			If this app isn't displaying the correct emojis, try exaggerating your facial expresssions, or positioning the camera with a different background.
-
-			Emoji Detector runs entirely on your device, and while this means the app uses more storage, any photo captured by this app will not leave your device and will be gone once your emojis are detected.
-
-			The machine learning model was developed by Gil Levi and Tal Hassner. https://www.openu.ac.il/home/hassner/projects/cnn_emotions/
-
-			If you enjoy this app or have any suggestions, please leave a review on the iMessage App Store!
-			"""
-			self.infoTextView.isHidden = true
-		}
+		setupInitialLayout()
 
 		let deniedMessage = "Emoji Detector requires camera access in order to analyze your facial expression. To fix this issue, go to Settings > Privacy > Camera and toggle the selector to allow this app to use the camera."
 
-		let launch: () -> Void = {
+		let launch: ()->Void = {
 			self.setupCaptureSession()
 			self.photoOutput?.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
 		}
@@ -109,10 +243,58 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
         // and store enough state information to restore your extension to its current state
         // in case it is terminated later.
     }
+
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+
+		if videoPreviewLayer != nil {
+			updateUI {
+				self.videoPreviewLayer!.frame = self.videoPreviewView.bounds
+				self.videoPreviewView.layer.addSublayer(self.videoPreviewLayer!)
+			}
+		}
+	}
     
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
+		super.willTransition(to: presentationStyle)
         // Called before the extension transitions to a new presentation style.
         // Use this method to prepare for the change in presentation style.
+
+		switch presentationStyle {
+		case .compact:
+			break
+
+		case .expanded:
+			if !didConstrainHeight {
+				containerStack.heightAnchor.constraint(equalToConstant: containerStack.bounds.height).isActive = true
+
+				didConstrainHeight = true
+			}
+
+			containerStackBottomConstraint.isActive = false
+
+			if !didConstrainInfoTextView {
+				infoTextView.translatesAutoresizingMaskIntoConstraints = false
+				infoTextView.topAnchor.constraint(equalTo: containerStack.bottomAnchor, constant: 16).isActive = true
+				infoTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+				infoTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
+				infoTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+
+				didConstrainInfoTextView = true
+			}
+
+			updateUI {
+				self.infoTextView.isHidden = false
+			}
+
+		case .transcript: break
+		}
+    }
+    
+    override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
+		super.didTransition(to: presentationStyle)
+        // Called after the extension transitions to a new presentation style.
+        // Use this method to finalize any behaviors associated with the change in presentation style.
 
 		switch presentationStyle {
 		case .compact:
@@ -120,53 +302,18 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 				self.infoTextView.isHidden = true
 			}
 
+			containerStackBottomConstraint.isActive = true
+
 		case .expanded:
-			if !didConstrainHeight {
+			if infoTextView.isHidden {
 				updateUI {
-					self.functionallityContainer.heightAnchor.constraint(equalToConstant: self.functionallityContainer.bounds.height).isActive = true
-					self.didConstrainHeight = true
+					self.infoTextView.isHidden = false
 				}
 			}
 
-		case .transcript:
-			break
+		case .transcript: break
 		}
     }
-    
-    override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
-        // Called after the extension transitions to a new presentation style.
-        // Use this method to finalize any behaviors associated with the change in presentation style.
-
-		switch presentationStyle {
-		case .compact:
-			if !infoTextView.isHidden {
-				updateUI {
-					self.infoTextView.isHidden = true
-				}
-			}
-
-		case .expanded:
-			updateUI {
-				self.infoTextView.isHidden = false
-			}
-
-		case .transcript:
-			break
-		}
-    }
-
-	override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
-
-		guard videoPreviewLayer != nil else {
-			return
-		}
-
-		updateUI {
-			self.videoPreviewLayer!.frame = self.videoPreviewView.bounds
-			self.videoPreviewView!.layer.addSublayer(self.videoPreviewLayer!)
-		}
-	}
 
 	//MARK: Text view
 	func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange) -> Bool {
@@ -189,13 +336,13 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 	private var captureSession: AVCaptureSession?
 	private var photoOutput: AVCapturePhotoOutput?
 	private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
-	private var didConstrainHeight = false
 
 	//MARK: - Private methods
+	
 	private func alertUser(title: String, message: String) {
 		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
-		self.present(alert, animated: true, completion: nil)
+		present(alert, animated: true, completion: nil)
 	}
 
 	private func updateUI(_ block: @escaping ()->Void) {
@@ -241,9 +388,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 	}
 
 	private func detectEmotions(photoData: Data) {
-		guard let model = try? VNCoreMLModel(for: CNNEmotions().model) else {
-			fatalError("Could not load CNNEmotions model.")
-		}
+		let model = try! VNCoreMLModel(for: CNNEmotions().model)
 
 		let request = VNCoreMLRequest(model: model, completionHandler: { request, error in
 			guard let results = request.results as? [VNClassificationObservation] else {
@@ -272,15 +417,15 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		}) {
 			print("\(feeling.key.rawValue): \(feeling.value)")
 		}
-		print("")
+		print("\n", terminator: "")
 
 		let emojis: Emojis = getEmojisFrom(emotions: emotions)
 
 		updateUI {
-			self.emojiButton1.setTitle(String(emojis.top), for: .normal)
-			self.emojiButton2.setTitle(String(emojis.second), for: .normal)
-			self.emojiButton3.setTitle(String(emojis.third), for: .normal)
-			self.emojiButton4.setTitle(String(emojis.random), for: .normal)
+			self.emojiButtons[0].setTitle(String(emojis.top), for: .normal)
+			self.emojiButtons[1].setTitle(String(emojis.second), for: .normal)
+			self.emojiButtons[2].setTitle(String(emojis.third), for: .normal)
+			self.emojiButtons[3].setTitle(String(emojis.random), for: .normal)
 		}
 	}
 
@@ -431,10 +576,10 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		case .surprise:
 			switch feeling.value {
 			case 50...100:
-				return Random.from(Set("🤭😲😵").subtracting(usedEmojis))
+				return Random.from(Set("🤭😱😲😵").subtracting(usedEmojis))
 
 			case 0..<50:
-				return Random.from(Set("😳😱😯😮").subtracting(usedEmojis))
+				return Random.from(Set("😳😯😮").subtracting(usedEmojis))
 
 			default: fatalError()
 			}
