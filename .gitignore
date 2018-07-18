@@ -72,3 +72,4 @@ Resources/*.mlmodel
 EssentialsiOS.framework
 .mov
 .mp4
+Certificate.p12
