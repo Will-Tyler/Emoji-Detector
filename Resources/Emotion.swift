@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 enum Emotion: String {
 	case angry = "Angry"
 	case sad = "Sad"
