@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4C4FABA3212EF42400611AF2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C4FABA2212EF42400611AF2 /* GoogleService-Info.plist */; };
 		4C4FABA4212EF42400611AF2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C4FABA2212EF42400611AF2 /* GoogleService-Info.plist */; };
+		4CCACA1521304EB600DA26B1 /* EmojisViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCACA1421304EB600DA26B1 /* EmojisViewController.swift */; };
 		4CFB9DBC20C04A610048BB16 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CFB9DBB20C04A610048BB16 /* Assets.xcassets */; };
 		4CFB9DC320C04A610048BB16 /* Emoji Detector MessagesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4CFB9DC220C04A610048BB16 /* Emoji Detector MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4CFB9DC820C04A610048BB16 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFB9DC720C04A610048BB16 /* Messages.framework */; };
@@ -19,6 +20,7 @@
 		4CFB9DE420C04AB70048BB16 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFB9DE020C04AA10048BB16 /* Random.swift */; };
 		4CFB9DE520C04AB70048BB16 /* CNNEmotions.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4CFB9DE120C04AB70048BB16 /* CNNEmotions.mlmodel */; };
 		6C6B52C2CE709F4D6636A61F /* Pods_Emoji_Detector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 427086B33C7B4466A8A1E5F7 /* Pods_Emoji_Detector.framework */; };
+		9732A4DEFA55D550700A4B69 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9732AADF51FF468978F2FB4A /* UIView.swift */; };
 		CEB513DC46B90D6C56C2484E /* Pods_Emoji_Detector_MessagesExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69CC473EB6709941AC054135 /* Pods_Emoji_Detector_MessagesExtension.framework */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +61,7 @@
 		29A435CE695FDDBFB69644CB /* Pods-Emoji Detector MessagesExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Emoji Detector MessagesExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Emoji Detector MessagesExtension/Pods-Emoji Detector MessagesExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		427086B33C7B4466A8A1E5F7 /* Pods_Emoji_Detector.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Emoji_Detector.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C4FABA2212EF42400611AF2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4CCACA1421304EB600DA26B1 /* EmojisViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojisViewController.swift; sourceTree = "<group>"; };
 		4CFB9DB820C04A5F0048BB16 /* Emoji Detector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Emoji Detector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CFB9DBB20C04A610048BB16 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4CFB9DBD20C04A610048BB16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -73,6 +76,7 @@
 		4CFB9DE120C04AB70048BB16 /* CNNEmotions.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = CNNEmotions.mlmodel; sourceTree = "<group>"; };
 		55566D2086478A6C930E76BE /* Pods-Emoji Detector.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Emoji Detector.release.xcconfig"; path = "Pods/Target Support Files/Pods-Emoji Detector/Pods-Emoji Detector.release.xcconfig"; sourceTree = "<group>"; };
 		69CC473EB6709941AC054135 /* Pods_Emoji_Detector_MessagesExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Emoji_Detector_MessagesExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9732AADF51FF468978F2FB4A /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		B1DFCC89B7DBEF8ACE8DA580 /* Pods-Emoji Detector.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Emoji Detector.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Emoji Detector/Pods-Emoji Detector.debug.xcconfig"; sourceTree = "<group>"; };
 		B9DA62E9828902B26DFD2A9A /* Pods-Emoji Detector MessagesExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Emoji Detector MessagesExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-Emoji Detector MessagesExtension/Pods-Emoji Detector MessagesExtension.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -143,7 +147,6 @@
 		4CFB9DC620C04A610048BB16 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4C607E6C210C16B8006300D7 /* Essentials.framework */,
 				4CFB9DC720C04A610048BB16 /* Messages.framework */,
 				427086B33C7B4466A8A1E5F7 /* Pods_Emoji_Detector.framework */,
 				69CC473EB6709941AC054135 /* Pods_Emoji_Detector_MessagesExtension.framework */,
@@ -154,6 +157,7 @@
 		4CFB9DC920C04A610048BB16 /* Emoji Detector MessagesExtension */ = {
 			isa = PBXGroup;
 			children = (
+				4CCACA1421304EB600DA26B1 /* EmojisViewController.swift */,
 				4CFB9DDB20C04A810048BB16 /* MessagesViewController.swift */,
 				4CFB9DCF20C04A620048BB16 /* Assets.xcassets */,
 				4CFB9DD120C04A620048BB16 /* Info.plist */,
@@ -168,6 +172,7 @@
 				4CFB9DDF20C04AA10048BB16 /* Emojis.swift */,
 				4CFB9DDE20C04AA00048BB16 /* Emotion.swift */,
 				4CFB9DE020C04AA10048BB16 /* Random.swift */,
+				9732AADF51FF468978F2FB4A /* UIView.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -385,8 +390,10 @@
 				4CFB9DE420C04AB70048BB16 /* Random.swift in Sources */,
 				4CFB9DE520C04AB70048BB16 /* CNNEmotions.mlmodel in Sources */,
 				4CFB9DE320C04AB70048BB16 /* Emojis.swift in Sources */,
+				4CCACA1521304EB600DA26B1 /* EmojisViewController.swift in Sources */,
 				4CFB9DDC20C04A810048BB16 /* MessagesViewController.swift in Sources */,
 				4CFB9DE220C04AB70048BB16 /* Emotion.swift in Sources */,
+				9732A4DEFA55D550700A4B69 /* UIView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
