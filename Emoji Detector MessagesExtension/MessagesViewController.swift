@@ -18,7 +18,7 @@ import Firebase
 
 @objc(MessagesViewController)
 
-class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCaptureDelegate, UITextViewDelegate {
+final class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCaptureDelegate, UITextViewDelegate {
 
 	//MARK: - Views
 	private let containerStack: UIStackView = {
@@ -44,7 +44,6 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		for _ in 1...4 {
 			let button = UIButton()
 
-//			button.backgroundColor = .green
 			button.titleLabel!.numberOfLines = 1
 			button.titleLabel!.adjustsFontSizeToFitWidth = true
 			button.titleLabel!.lineBreakMode = .byClipping
@@ -78,7 +77,6 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		If you enjoy this app or have any suggestions, please leave a review on the iMessage App Store!
 		"""
 		textView.isHidden = true
-//		textView.backgroundColor = UIColor.lightGray
 		textView.isEditable = false
 		textView.isSelectable = true
 		textView.font = UIFont.preferredFont(forTextStyle: .body)
@@ -89,6 +87,15 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 	private var containerStackBottomConstraint: NSLayoutConstraint!
 	private var didConstrainHeight = false
 	private var didConstrainInfoTextView = false
+	private let visionFaceDetectorOptions: VisionFaceDetectorOptions = {
+		let options = VisionFaceDetectorOptions()
+
+		options.modeType = .accurate
+		options.classificationType = .all
+		options.isTrackingEnabled = true
+
+		return options
+	}()
 
 	//MARK: - Actions
 	@objc func emojiButtonPressed(_ sender: UIButton) {
@@ -105,7 +112,6 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 			let button = UIButton(type: .system)
 
 			button.setTitle("Reload 🔄", for: .normal)
-//			button.backgroundColor = .yellow
 			button.addTarget(self, action: #selector(reloadButtonPressed), for: .touchUpInside)
 
 			return button
@@ -115,8 +121,6 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		let emojiButtonsContainer: UIView = {
 			let view = UIView()
-
-//			view.backgroundColor = .red
 
 			return view
 		}()
