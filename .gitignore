@@ -73,3 +73,7 @@ EssentialsiOS.framework
 .mov
 .mp4
 Certificate.p12
+Pods
+Podfile.lock
+Essentials.framework
+
