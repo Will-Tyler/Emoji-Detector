@@ -69,11 +69,10 @@ fastlane/test_output
 
 Resources/*.mlmodel
 .DS_Store
-EssentialsiOS.framework
 .mov
 .mp4
 Certificate.p12
 Pods
 Podfile.lock
-Essentials.framework
+Emoji Detector/GoogleService-Info\.plist
 
