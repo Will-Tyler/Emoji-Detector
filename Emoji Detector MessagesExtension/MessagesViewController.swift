@@ -13,14 +13,15 @@ import CoreML
 import Vision
 import WebKit
 import SafariServices
+import Firebase
+
 
 @objc(MessagesViewController)
-
 
 class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCaptureDelegate, UITextViewDelegate {
 
 	//MARK: - Views
-	let containerStack: UIStackView = {
+	private let containerStack: UIStackView = {
 		let stackView = UIStackView()
 
 		stackView.alignment = .fill
@@ -30,14 +31,14 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		return stackView
 	}()
-	let videoPreviewView: UIView = {
+	private let videoPreviewView: UIView = {
 		let view = UIView()
 
 		view.backgroundColor = .blue
 
 		return view
 	}()
-	let emojiButtons: [UIButton] = {
+	private let emojiButtons: [UIButton] = {
 		var array = [UIButton]()
 
 		for _ in 1...4 {
@@ -61,7 +62,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 
 		return array
 	}()
-	let infoTextView: UITextView = {
+	private let infoTextView: UITextView = {
 		let textView = UITextView()
 
 		textView.text =
@@ -227,13 +228,12 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 			alertUser(title: "Camera Access", message: "Your device is restricted from using the camera. Emoji Detector needs the front camera in order to analyze your facial expression. You must allow camera access for this app to work.")
 		}
     }
-
     override func willBecomeActive(with conversation: MSConversation) {
         // Called when the extension is about to move from the inactive to active state.
         // This will happen when the extension is about to present UI.
         // Use this method to configure the extension and restore previously stored state.
+	    FirebaseApp.configure()
     }
-    
     override func didResignActive(with conversation: MSConversation) {
         // Called when the extension is about to move from the active to inactive state.
         // This will happen when the user dissmises the extension, changes to a different
@@ -243,7 +243,6 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
         // and store enough state information to restore your extension to its current state
         // in case it is terminated later.
     }
-
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 
@@ -254,7 +253,6 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 			}
 		}
 	}
-    
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
 		super.willTransition(to: presentationStyle)
         // Called before the extension transitions to a new presentation style.
@@ -290,7 +288,6 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		case .transcript: break
 		}
     }
-    
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
 		super.didTransition(to: presentationStyle)
         // Called after the extension transitions to a new presentation style.
@@ -345,7 +342,7 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 		present(alert, animated: true, completion: nil)
 	}
 
-	private func updateUI(_ block: @escaping ()->Void) {
+	private func updateUI(_ block: @escaping ()->()) {
 		DispatchQueue.main.async(execute: block)
 	}
 
@@ -587,59 +584,3 @@ class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoCapture
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
