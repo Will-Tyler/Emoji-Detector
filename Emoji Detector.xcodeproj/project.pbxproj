@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C4FABA3212EF42400611AF2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C4FABA2212EF42400611AF2 /* GoogleService-Info.plist */; };
+		4C4FABA4212EF42400611AF2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C4FABA2212EF42400611AF2 /* GoogleService-Info.plist */; };
+		4C607E6D210C16B8006300D7 /* Essentials.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C607E6C210C16B8006300D7 /* Essentials.framework */; };
 		4CFB9DBC20C04A610048BB16 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CFB9DBB20C04A610048BB16 /* Assets.xcassets */; };
 		4CFB9DC320C04A610048BB16 /* Emoji Detector MessagesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4CFB9DC220C04A610048BB16 /* Emoji Detector MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4CFB9DC820C04A610048BB16 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFB9DC720C04A610048BB16 /* Messages.framework */; };
@@ -16,6 +19,8 @@
 		4CFB9DE320C04AB70048BB16 /* Emojis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFB9DDF20C04AA10048BB16 /* Emojis.swift */; };
 		4CFB9DE420C04AB70048BB16 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFB9DE020C04AA10048BB16 /* Random.swift */; };
 		4CFB9DE520C04AB70048BB16 /* CNNEmotions.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4CFB9DE120C04AB70048BB16 /* CNNEmotions.mlmodel */; };
+		6C6B52C2CE709F4D6636A61F /* Pods_Emoji_Detector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 427086B33C7B4466A8A1E5F7 /* Pods_Emoji_Detector.framework */; };
+		CEB513DC46B90D6C56C2484E /* Pods_Emoji_Detector_MessagesExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69CC473EB6709941AC054135 /* Pods_Emoji_Detector_MessagesExtension.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +57,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		29A435CE695FDDBFB69644CB /* Pods-Emoji Detector MessagesExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Emoji Detector MessagesExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Emoji Detector MessagesExtension/Pods-Emoji Detector MessagesExtension.debug.xcconfig"; sourceTree = "<group>"; };
+		427086B33C7B4466A8A1E5F7 /* Pods_Emoji_Detector.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Emoji_Detector.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C4FABA2212EF42400611AF2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4C607E6C210C16B8006300D7 /* Essentials.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Essentials.framework; sourceTree = "<group>"; };
 		4CFB9DB820C04A5F0048BB16 /* Emoji Detector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Emoji Detector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CFB9DBB20C04A610048BB16 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4CFB9DBD20C04A610048BB16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -64,6 +73,10 @@
 		4CFB9DDF20C04AA10048BB16 /* Emojis.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Emojis.swift; sourceTree = "<group>"; };
 		4CFB9DE020C04AA10048BB16 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 		4CFB9DE120C04AB70048BB16 /* CNNEmotions.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = CNNEmotions.mlmodel; sourceTree = "<group>"; };
+		55566D2086478A6C930E76BE /* Pods-Emoji Detector.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Emoji Detector.release.xcconfig"; path = "Pods/Target Support Files/Pods-Emoji Detector/Pods-Emoji Detector.release.xcconfig"; sourceTree = "<group>"; };
+		69CC473EB6709941AC054135 /* Pods_Emoji_Detector_MessagesExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Emoji_Detector_MessagesExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1DFCC89B7DBEF8ACE8DA580 /* Pods-Emoji Detector.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Emoji Detector.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Emoji Detector/Pods-Emoji Detector.debug.xcconfig"; sourceTree = "<group>"; };
+		B9DA62E9828902B26DFD2A9A /* Pods-Emoji Detector MessagesExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Emoji Detector MessagesExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-Emoji Detector MessagesExtension/Pods-Emoji Detector MessagesExtension.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,12 +85,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CFB9DC820C04A610048BB16 /* Messages.framework in Frameworks */,
+				4C607E6D210C16B8006300D7 /* Essentials.framework in Frameworks */,
+				CEB513DC46B90D6C56C2484E /* Pods_Emoji_Detector_MessagesExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		978A8A6F973E8AF8448E35F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6C6B52C2CE709F4D6636A61F /* Pods_Emoji_Detector.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3E08C45E7FF8DA7923DA5123 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B1DFCC89B7DBEF8ACE8DA580 /* Pods-Emoji Detector.debug.xcconfig */,
+				55566D2086478A6C930E76BE /* Pods-Emoji Detector.release.xcconfig */,
+				29A435CE695FDDBFB69644CB /* Pods-Emoji Detector MessagesExtension.debug.xcconfig */,
+				B9DA62E9828902B26DFD2A9A /* Pods-Emoji Detector MessagesExtension.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		4CFB9DB120C04A5F0048BB16 = {
 			isa = PBXGroup;
 			children = (
@@ -86,6 +120,7 @@
 				4CFB9DDD20C04A8D0048BB16 /* Resources */,
 				4CFB9DC620C04A610048BB16 /* Frameworks */,
 				4CFB9DB920C04A5F0048BB16 /* Products */,
+				3E08C45E7FF8DA7923DA5123 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -102,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				4CFB9DBB20C04A610048BB16 /* Assets.xcassets */,
+				4C4FABA2212EF42400611AF2 /* GoogleService-Info.plist */,
 				4CFB9DBD20C04A610048BB16 /* Info.plist */,
 			);
 			path = "Emoji Detector";
@@ -110,7 +146,10 @@
 		4CFB9DC620C04A610048BB16 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4C607E6C210C16B8006300D7 /* Essentials.framework */,
 				4CFB9DC720C04A610048BB16 /* Messages.framework */,
+				427086B33C7B4466A8A1E5F7 /* Pods_Emoji_Detector.framework */,
+				69CC473EB6709941AC054135 /* Pods_Emoji_Detector_MessagesExtension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -143,9 +182,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4CFB9DD820C04A620048BB16 /* Build configuration list for PBXNativeTarget "Emoji Detector" */;
 			buildPhases = (
+				0C9BD6BC24CB57B3F79F74D6 /* [CP] Check Pods Manifest.lock */,
 				4CFB9DB620C04A5F0048BB16 /* Resources */,
 				4CFB9DD720C04A620048BB16 /* Embed App Extensions */,
 				4CA75E6E20C073570026F573 /* CopyFiles */,
+				978A8A6F973E8AF8448E35F3 /* Frameworks */,
+				60B7D06AB3F970D1EE70E06A /* [CP] Embed Pods Frameworks */,
+				A19A0191D146C6A9F3085C1A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -161,9 +204,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4CFB9DD420C04A620048BB16 /* Build configuration list for PBXNativeTarget "Emoji Detector MessagesExtension" */;
 			buildPhases = (
+				7E7B89022198F3DAF3579CEF /* [CP] Check Pods Manifest.lock */,
 				4CFB9DBE20C04A610048BB16 /* Sources */,
 				4CFB9DBF20C04A610048BB16 /* Frameworks */,
 				4CFB9DC020C04A610048BB16 /* Resources */,
+				1066BF7AE7B597C26391730D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -218,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CFB9DBC20C04A610048BB16 /* Assets.xcassets in Resources */,
+				4C4FABA3212EF42400611AF2 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,10 +272,113 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CFB9DD020C04A620048BB16 /* Assets.xcassets in Resources */,
+				4C4FABA4212EF42400611AF2 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0C9BD6BC24CB57B3F79F74D6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Emoji Detector-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1066BF7AE7B597C26391730D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Emoji Detector MessagesExtension/Pods-Emoji Detector MessagesExtension-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleMobileVision/GoogleMVFaceDetectorResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMVFaceDetectorResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Emoji Detector MessagesExtension/Pods-Emoji Detector MessagesExtension-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		60B7D06AB3F970D1EE70E06A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Emoji Detector/Pods-Emoji Detector-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-Defines-NSData+zlib/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-Defines-Logger-NSData+zlib/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleAPIClientForREST/GoogleAPIClientForREST.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleAPIClientForREST.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Emoji Detector/Pods-Emoji Detector-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7E7B89022198F3DAF3579CEF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Emoji Detector MessagesExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A19A0191D146C6A9F3085C1A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Emoji Detector/Pods-Emoji Detector-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleMobileVision/GoogleMVFaceDetectorResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMVFaceDetectorResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Emoji Detector/Pods-Emoji Detector-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4CFB9DBE20C04A610048BB16 /* Sources */ = {
@@ -371,6 +520,7 @@
 		};
 		4CFB9DD520C04A620048BB16 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29A435CE695FDDBFB69644CB /* Pods-Emoji Detector MessagesExtension.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
 				CLANG_ENABLE_MODULES = YES;
@@ -397,6 +547,7 @@
 		};
 		4CFB9DD620C04A620048BB16 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B9DA62E9828902B26DFD2A9A /* Pods-Emoji Detector MessagesExtension.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
 				CLANG_ENABLE_MODULES = YES;
@@ -422,6 +573,7 @@
 		};
 		4CFB9DD920C04A620048BB16 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1DFCC89B7DBEF8ACE8DA580 /* Pods-Emoji Detector.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -437,6 +589,7 @@
 		};
 		4CFB9DDA20C04A620048BB16 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 55566D2086478A6C930E76BE /* Pods-Emoji Detector.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
