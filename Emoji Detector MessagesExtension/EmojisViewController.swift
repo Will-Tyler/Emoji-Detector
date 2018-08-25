@@ -81,18 +81,19 @@ final class EmojisViewController: UIViewController {
 		setupInitialLayout()
 	}
 
-	@objc private func emojiButtonPressed(_ sender: UIButton) {
-//		requestPresentationStyle(.compact)
+	var messagesViewController: MessagesViewController!
 
-//		activeConversation!.insertText(sender.title(for: .normal)!, completionHandler: nil)
+	@objc func emojiButtonPressed(_ sender: UIButton) {
+		messagesViewController.requestPresentationStyle(.compact)
+		messagesViewController.activeConversation!.insertText(sender.title(for: .normal))
 	}
 
-	func updateEmojiButtons(first: Character, second: Character, third: Character, random: Character) {
+	func updateEmojiButtons(with emojis: Emojis) {
 		DispatchQueue.main.async {
-			self.emojiButtons[0].setTitle(String(first), for: .normal)
-			self.emojiButtons[1].setTitle(String(second), for: .normal)
-			self.emojiButtons[2].setTitle(String(third), for: .normal)
-			self.emojiButtons[3].setTitle(String(random), for: .normal)
+			self.emojiButtons[0].setTitle(String(emojis.first), for: .normal)
+			self.emojiButtons[1].setTitle(String(emojis.second), for: .normal)
+			self.emojiButtons[2].setTitle(String(emojis.third), for: .normal)
+			self.emojiButtons[3].setTitle(String(emojis.random), for: .normal)
 		}
 	}
 

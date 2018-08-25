@@ -9,8 +9,6 @@
 import UIKit
 import Messages
 import AVFoundation
-import CoreML
-import Vision
 import WebKit
 import SafariServices
 import Firebase
@@ -108,15 +106,17 @@ final class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoC
 	//MARK: - Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
+	    addChildViewController(emojisViewController)
 
 		infoTextView.delegate = self
+	    emojisViewController.messagesViewController = self
 
 		setupInitialLayout()
 
 		let deniedMessage = "Emoji Detector requires camera access in order to analyze your facial expression. To fix this issue, go to Settings > Privacy > Camera and toggle the selector to allow this app to use the camera."
 
-		let launch: ()->Void = {
+		let launch: ()->() = {
 			self.setupCaptureSession()
 			self.photoOutput?.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
 		}
@@ -259,13 +259,12 @@ final class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoC
 
 	//MARK: Photo capture
 	func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-		detectEmotions(photoData: photo.fileDataRepresentation()!)
+		EmojiDetector.handleEmojis(from: photo.fileDataRepresentation()!, with: { emojis in
+			emojisViewController.updateEmojiButtons(with: emojis)
+		})
 	}
 
 	//MARK: - Private members
-	private typealias Emojis = (top: Character, second: Character, third: Character, random: Character)
-	private typealias Feeling = (key: Emotion, value: Int)
-
 	private var captureSession: AVCaptureSession?
 	private var photoOutput: AVCapturePhotoOutput?
 	private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
@@ -313,200 +312,6 @@ final class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoC
 		videoPreviewLayer!.videoGravity = .resizeAspectFill
 
 		captureSession!.startRunning()
-	}
-
-	private func detectEmotions(photoData: Data) {
-		let model = try! VNCoreMLModel(for: CNNEmotions().model)
-
-		let request = VNCoreMLRequest(model: model, completionHandler: { request, error in
-			guard let results = request.results as? [VNClassificationObservation] else {
-				fatalError("Unpredicted results from VNCoreMLRequest.")
-			}
-
-			self.handleEmotions(results: results)
-		})
-
-		do {
-			try VNImageRequestHandler(data: photoData).perform([request])
-		}
-		catch {
-			print(error)
-		}
-	}
-
-	private func handleEmotions(results: [VNClassificationObservation]) {
-		var emotions: [Emotion: Int] = [:]
-		for result in results {
-			emotions[Emotion(rawValue: result.identifier)!] = Int(result.confidence * 100)
-		}
-
-		for feeling in emotions.sorted(by: { (left, right) -> Bool in
-			return left.value > right.value
-		}) {
-			print("\(feeling.key.rawValue): \(feeling.value)")
-		}
-		print("\n", terminator: "")
-
-		let emojis: Emojis = getEmojisFrom(emotions: emotions)
-
-		emojisViewController.updateEmojiButtons(first: emojis.top, second: emojis.second, third: emojis.third, random: emojis.random)
-	}
-
-	private func getEmojisFrom(emotions: [Emotion: Int]) -> Emojis {
-		var emojis: Emojis
-
-		let feelings: [Feeling] = emotions.sorted { (left, right) -> Bool in
-			return left.value > right.value
-		}
-
-		let topFeeling = feelings[0]
-		emojis.top = getEmojiFor(feeling: topFeeling)
-
-		let secondFeeling: Feeling
-		switch topFeeling.value {
-		case 50...100:
-			secondFeeling = topFeeling
-
-		case 0...50:
-			secondFeeling = feelings[1]
-
-		default: fatalError()
-		}
-		emojis.second = getEmojiFor(feeling: secondFeeling, without: Set([emojis.top]))
-
-		let thirdFeeling: Feeling
-		switch topFeeling.value {
-		case 75...100:
-			thirdFeeling = topFeeling
-
-		case 50..<75:
-			thirdFeeling = feelings[1]
-
-		case 0..<50:
-			thirdFeeling = feelings[2]
-
-		default: fatalError()
-		}
-		emojis.third = getEmojiFor(feeling: thirdFeeling, without: Set([emojis.top, emojis.second]))
-
-		emojis.random = Random.miscEmoji
-
-		return emojis
-	}
-
-	private func getEmojiFor(feeling: Feeling, without usedEmojis: Set<Character> = Set<Character>()) -> Character {
-		switch feeling.key {
-		case .angry:
-			switch feeling.value {
-			case 50...100:
-				return Random.from(Set("😤😡🤬").subtracting(usedEmojis))
-
-			case 0..<50:
-				return Random.from(Set("🤨😠😑").subtracting(usedEmojis))
-
-			default: fatalError()
-			}
-
-		case .disgust:
-			switch feeling.value {
-			case 50...100:
-				let options = Set("🤢🤮").subtracting(usedEmojis)
-				if options.isEmpty {
-					fallthrough
-				}
-
-				return Random.from(options)
-
-			case 0..<50:
-				var options = Set("😖😷").subtracting(usedEmojis)
-				if options.isEmpty {
-					options = Set("🤢🤮")
-				}
-
-				return Random.from(options)
-
-			default: fatalError()
-			}
-
-		case .fear:
-			switch feeling.value {
-			case 75...100:
-				let options = Set("😱😨").subtracting(usedEmojis)
-				guard !options.isEmpty else {
-					fallthrough
-				}
-
-				return Random.from(options)
-
-			case 50..<75:
-				return Random.from(Set("😳😬😧").subtracting(usedEmojis))
-
-			case 0..<50:
-				return Random.from(Set("😟😮😲").subtracting(usedEmojis))
-
-			default: fatalError()
-			}
-
-		case .happy:
-			switch feeling.value {
-			case 75...100:
-				return Random.from(Set("😂🤣😊🤪😆🤗").subtracting(usedEmojis))
-
-			case 50..<75:
-				return Random.from(Set("😃😁😅☺️😝").subtracting(usedEmojis))
-
-			case 0..<50:
-				return Random.from(Set("😀😄🙂😌😛").subtracting(usedEmojis))
-
-			default: fatalError()
-			}
-
-		case .neutral:
-			switch feeling.value {
-			case 50...100:
-				let options = Set("😶😐").subtracting(usedEmojis)
-				guard !options.isEmpty else {
-					fallthrough
-				}
-
-				return Random.from(options)
-
-			case 0..<50:
-				var options = Set("🙃😴").subtracting(usedEmojis)
-				if options.isEmpty {
-					options = Set("😶😐")
-				}
-
-				return Random.from(options)
-
-			default: fatalError()
-			}
-
-		case .sad:
-			switch feeling.value {
-			case 75...100:
-				return Random.from(Set("😫😭😰").subtracting(usedEmojis))
-
-			case 50..<75:
-				return Random.from(Set("😣😢😥😓").subtracting(usedEmojis))
-
-			case 0..<50:
-				return Random.from(Set("😒😞😔😕🙁☹️").subtracting(usedEmojis))
-
-			default: fatalError()
-			}
-
-		case .surprise:
-			switch feeling.value {
-			case 50...100:
-				return Random.from(Set("🤭😱😲😵").subtracting(usedEmojis))
-
-			case 0..<50:
-				return Random.from(Set("😳😯😮").subtracting(usedEmojis))
-
-			default: fatalError()
-			}
-		}
 	}
 
 }
