@@ -159,12 +159,13 @@
 		4CFB9DC920C04A610048BB16 /* Emoji Detector MessagesExtension */ = {
 			isa = PBXGroup;
 			children = (
+				9732ABFEF627A3792AC47BC8 /* EmojiDetector.swift */,
+				9732A8314E060B9070864182 /* Emojis.swift */,
 				4CCACA1421304EB600DA26B1 /* EmojisViewController.swift */,
+				4CFB9DDE20C04AA00048BB16 /* Emotion.swift */,
 				4CFB9DDB20C04A810048BB16 /* MessagesViewController.swift */,
 				4CFB9DCF20C04A620048BB16 /* Assets.xcassets */,
 				4CFB9DD120C04A620048BB16 /* Info.plist */,
-				9732ABFEF627A3792AC47BC8 /* EmojiDetector.swift */,
-				9732A8314E060B9070864182 /* Emojis.swift */,
 			);
 			path = "Emoji Detector MessagesExtension";
 			sourceTree = "<group>";
@@ -172,10 +173,9 @@
 		4CFB9DDD20C04A8D0048BB16 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				4CFB9DE120C04AB70048BB16 /* CNNEmotions.mlmodel */,
-				4CFB9DDE20C04AA00048BB16 /* Emotion.swift */,
 				4CFB9DE020C04AA10048BB16 /* Random.swift */,
 				9732AADF51FF468978F2FB4A /* UIView.swift */,
+				4CFB9DE120C04AB70048BB16 /* CNNEmotions.mlmodel */,
 			);
 			path = Resources;
 			sourceTree = "<group>";

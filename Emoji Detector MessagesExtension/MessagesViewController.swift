@@ -107,6 +107,8 @@ final class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoC
     override func viewDidLoad() {
         super.viewDidLoad()
 
+		FirebaseApp.configure()
+
 	    addChildViewController(emojisViewController)
 
 		infoTextView.delegate = self
@@ -150,7 +152,6 @@ final class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoC
         // Called when the extension is about to move from the inactive to active state.
         // This will happen when the extension is about to present UI.
         // Use this method to configure the extension and restore previously stored state.
-	    FirebaseApp.configure()
     }
     override func didResignActive(with conversation: MSConversation) {
         // Called when the extension is about to move from the active to inactive state.
@@ -233,15 +234,6 @@ final class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoC
 	private var containerStackBottomConstraint: NSLayoutConstraint!
 	private var didConstrainHeight = false
 	private var didConstrainInfoTextView = false
-	private let visionFaceDetectorOptions: VisionFaceDetectorOptions = {
-		let options = VisionFaceDetectorOptions()
-
-		options.modeType = .accurate
-		options.classificationType = .all
-		options.isTrackingEnabled = true
-
-		return options
-	}()
 
 	//MARK: - Actions
 	@objc private func reloadButtonPressed() {

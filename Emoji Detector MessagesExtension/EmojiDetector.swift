@@ -6,17 +6,56 @@
 import Foundation
 import CoreML
 import Vision
+import Firebase
 
 
 final class EmojiDetector {
 
-	private static let model = try! VNCoreMLModel(for: CNNEmotions().model)
-
 	private typealias Feeling = (key: Emotion, value: Int)
+
+	private static let model = try! VNCoreMLModel(for: CNNEmotions().model)
+	private static let faceDetector: VisionFaceDetector = {
+		defer {
+			print("Finished setting up faceDetector...")
+		}
+
+		let options = VisionFaceDetectorOptions()
+
+		options.modeType = .accurate
+		options.classificationType = .all
+		options.isTrackingEnabled = true
+
+		let vision = Vision.vision()
+
+		return vision.faceDetector(options: options)
+	}()
 
 	/// Handle the emojis that are predicted from the photoData passed in.
 	static func handleEmojis(from photoData: Data, with handler: @escaping (Emojis)->()) {
-		detectEmotions(photoData: photoData, emojiHandler: handler)
+//		detectEmotions(photoData: photoData, emojiHandler: handler)
+
+		let uiImage: UIImage = {
+			let wrongImage = UIImage(data: photoData)!
+
+			return UIImage(cgImage: wrongImage.cgImage!, scale: wrongImage.scale, orientation: .up)
+		}()
+		assert(uiImage.imageOrientation == .up)
+
+		let visionImage = VisionImage(image: uiImage)
+		if let metadata = visionImage.metadata {
+			assert(metadata.orientation == .topLeft)
+		}
+
+		faceDetector.detect(in: visionImage, completion: { (features, error) in
+			guard error == nil, let faces = features else {
+				return
+			}
+
+			print(faces.count)
+			faces.forEach({ (face) in
+				print(face.frame)
+			})
+		})
 	}
 
 	private static func detectEmotions(photoData: Data, emojiHandler: @escaping (Emojis)->()) {
