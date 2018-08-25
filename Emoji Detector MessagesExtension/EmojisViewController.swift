@@ -85,7 +85,7 @@ final class EmojisViewController: UIViewController {
 
 	@objc func emojiButtonPressed(_ sender: UIButton) {
 		messagesViewController.requestPresentationStyle(.compact)
-		messagesViewController.activeConversation!.insertText(sender.title(for: .normal))
+		messagesViewController.activeConversation!.insertText(sender.title(for: .normal)!)
 	}
 
 	func updateEmojiButtons(with emojis: Emojis) {

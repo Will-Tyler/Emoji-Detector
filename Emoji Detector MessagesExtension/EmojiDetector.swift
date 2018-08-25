@@ -15,11 +15,11 @@ final class EmojiDetector {
 	private typealias Feeling = (key: Emotion, value: Int)
 
 	/// Handle the emojis that are predicted from the photoData passed in.
-	static func handleEmojis(from photoData: Data, with handler: (Emojis)->()) {
+	static func handleEmojis(from photoData: Data, with handler: @escaping (Emojis)->()) {
 		detectEmotions(photoData: photoData, emojiHandler: handler)
 	}
 
-	private static func detectEmotions(photoData: Data, emojiHandler: (Emojis)->()) {
+	private static func detectEmotions(photoData: Data, emojiHandler: @escaping (Emojis)->()) {
 		let request = VNCoreMLRequest(model: model, completionHandler: { request, error in
 			guard let results = request.results as? [VNClassificationObservation] else {
 				fatalError("Unpredicted results from VNCoreMLRequest.")
@@ -55,14 +55,12 @@ final class EmojiDetector {
 	}
 
 	private static func getEmojisFrom(emotions: [Emotion: Int]) -> Emojis {
-		var emojis: Emojis
-
 		let feelings: [Feeling] = emotions.sorted { (left, right) -> Bool in
 			return left.value > right.value
 		}
 
 		let topFeeling = feelings[0]
-		emojis.top = getEmojiFor(feeling: topFeeling)
+		let first = getEmojiFor(feeling: topFeeling)
 
 		let secondFeeling: Feeling
 		switch topFeeling.value {
@@ -74,7 +72,7 @@ final class EmojiDetector {
 
 		default: fatalError()
 		}
-		emojis.second = getEmojiFor(feeling: secondFeeling, without: Set([emojis.top]))
+		let second = getEmojiFor(feeling: secondFeeling, without: Set([first]))
 
 		let thirdFeeling: Feeling
 		switch topFeeling.value {
@@ -89,14 +87,14 @@ final class EmojiDetector {
 
 		default: fatalError()
 		}
-		emojis.third = getEmojiFor(feeling: thirdFeeling, without: Set([emojis.top, emojis.second]))
+		let third = getEmojiFor(feeling: thirdFeeling, without: Set([first, second]))
 
-		emojis.random = Random.miscEmoji
+		let random = Random.miscEmoji
 
-		return emojis
+		return Emojis(first: first, second: second, third: third, random: random)
 	}
 
-	private func getEmojiFor(feeling: Feeling, without usedEmojis: Set<Character> = Set<Character>()) -> Character {
+	private static func getEmojiFor(feeling: Feeling, without usedEmojis: Set<Character> = Set<Character>()) -> Character {
 		switch feeling.key {
 		case .angry:
 			switch feeling.value {

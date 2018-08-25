@@ -260,7 +260,7 @@ final class MessagesViewController: MSMessagesAppViewController, AVCapturePhotoC
 	//MARK: Photo capture
 	func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
 		EmojiDetector.handleEmojis(from: photo.fileDataRepresentation()!, with: { emojis in
-			emojisViewController.updateEmojiButtons(with: emojis)
+			self.emojisViewController.updateEmojiButtons(with: emojis)
 		})
 	}
 
